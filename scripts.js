@@ -24,7 +24,7 @@ let data4 = {
 
 let data5 = {
     photo: "images/havas-taj.jpg",
-    title: "Wonderful winter landscape",
+    title: "Winter landscape",
     description: "Oh yeah, Christmas time... or not. Did you know that in Australia Christmas is in the middle of the Summer?"
 }
 
@@ -68,10 +68,12 @@ $(".leftArrow").on("click", () => {
 
 let thumbnailGenerator = 0;
 let indexClicked = 0;
+let hiddenTextGenerator = 0;
 
 imagesData.forEach((item, index) => {
-    $(".thumbnailContainer").append(`<img class='thumbnail ${index}' src='${imagesData[thumbnailGenerator].photo}' data-index='${index}'>`)
+    $(".thumbnailContainer").append(`<div class='thumbnailContainer2'><img class='thumbnail ${index}' src='${imagesData[thumbnailGenerator].photo}' data-index='${index}'><div class='hiddenText'>${imagesData[hiddenTextGenerator].title}</div></div>`)
     thumbnailGenerator++
+    hiddenTextGenerator++
     $(".thumbnail").on("click", (event) => {
         indexClicked = $(event.target).attr('data-index');
         let numberIndex = parseInt(indexClicked); // ez a sor csak az elején kellett, hogy ne string hanem number legyen az indexClicked, de inkább otthagytam hátha később kelleni fog.
