@@ -1,0 +1,87 @@
+body{
+  margin:0;
+}
+
+h1 {
+  background:left 10% / 100% 100% repeat-x url("http://stayathome-syllabus.greenfox.academy/week01/assets/first-website-header.png");
+  margin: 0px auto;
+  height: 400px;
+  width: 50%;
+  color: #1f1b1f;
+  font-family: 'Abril Fatface', cursive;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 0 15%;
+  border-top: 5px solid #211c21;
+}
+
+.k{
+  font-size: 80px;
+  margin: 0;
+}
+
+main {
+  width: 40%;
+  margin: 0 auto;
+}
+
+div {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 125%;
+  padding: 6%;
+  font-weight: 300;
+}
+
+ul{
+  list-style-type: square;
+}
+
+li {
+  padding: 1% 0 0 0;
+}
+
+blockquote {
+  font-size:45px;
+  background: #373137;
+  color: white;
+  margin:0;
+  padding: 0 1% 7% 2%;
+  font-family: 'Abril Fatface', cursive;
+}
+
+blockquote::before {
+  content: '”';
+  font-size: 100px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+  margin: 0px 0px 60px 0px;
+}
+
+.italic {
+  font-style: italic;
+  font-family: 'Merriweather', serif;
+  font-style: italic;
+  font-weight: normal;
+  margin: 1% 0 0 0;
+  font-size: 70%;
+}
+
+.small {
+  font-size: 85%;
+}
+
+footer {
+  border-top: 5px solid #211c21;
+}
+
+footer {
+  margin: 0 auto;
+  width: 36%;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 125%;
+  padding: 50px 0 50px 0;
+  font-weight: 300;
+}
