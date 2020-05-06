@@ -22,7 +22,6 @@ main {
 
 .gray-container {
     position: absolute;
-    left: 529px;
     width: 45%;
     bottom: 0;
     z-index: 3;
