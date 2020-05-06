@@ -92,9 +92,9 @@ button {
     background: #404040;
     color: white;
     border-radius: 5px;
-    padding: 3px;
+    padding: 5px;
     margin: 2px;
-    top: -48px;
+    top: -48.5px;
     left: 1px;
     display: none;
 }
