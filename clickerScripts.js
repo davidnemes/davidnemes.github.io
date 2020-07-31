@@ -1,90 +1,80 @@
 let currentPoints=0
 let clickingLevel=1
 
-let writePoints = (a) => {
+
+let getClick = (b) => {
+    currentPoints++
     $(".points").text(currentPoints)
 }
 
 $(".mainButton").on("click", () => {
-    currentPoints++
-    writePoints(currentPoints)
+    getClick()
 })
 
 //upgrade -ek
 
-$(".2").on("click", () => {
-    if (currentPoints >= 30) {
-        $(".mainButton").on("click", () => {
-            currentPoints++
-            writePoints(currentPoints)
-        })
-        currentPoints= currentPoints - 30
-        writePoints(currentPoints)
-        clickingLevel++
-        $(".clickingLevel").text("Level 2")
-        $(".2").on("click", () => {
-            event.preventDefault()
-        })
-        //document.querySelector("#id-checkbox").addEventListener("click", function(event) {
-            //document.getElementById("output-box").innerHTML += "Sorry! <code>preventDefault()</code> won't let you check this!<br>";
-            //event.preventDefault();
-   //}, false);
-    } else {
-        console.log("You do not have enough points!")
-    }
+let level1 = {}
+
+let level2 = {
+    cost1: 30,
+    cost2: "Cost: 60",
+    level: 'Level 2',
+    title: "Upgrade to level 3",
+    description: "This upgrade will let you score 5 with one click.",
+    upgrade: 1,
+}
+let level3 = {
+    cost1: 60,
+    cost2: "Cost: 90",
+    level: 'Level 3',
+    title: "Upgrade to level 4",
+    description: "This upgrade will let you score 10 with one click.",
+    upgrade: 2,
+}
+let level4 = {
+    cost1: 90,
+    cost2: "Cost: 120",
+    level: 'Level 4',
+    title: "Upgrade to level 5",
+    description: "This upgrade will let you score 20 with one click.",
+    upgrade: 5,
+}
+let level5 = {
+    cost1: 120,
+    cost2: ":)",
+    level: 'Level 5',
+    title: "MAX",
+    description: "Good job! You maximalized your earnings!",
+    upgrade: 10,
+}
+
+let level6 = {
+    upgrade: 20,
+}
+
+let Levels = [level1, level2, level3, level4, level5, level6]
+
+let loadUpgradeMenu = (levelnumber) => {
+    $(".upgradeTitle").text(Levels[clickingLevel].title)
+    $(".upgradeDescription").text(Levels[clickingLevel].description)
+    $(".upgradeCost").text(Levels[clickingLevel].cost2)
+}
+
+$(".upgradeButton").on("click", () => {
+    if (clickingLevel<5) {
+        if (currentPoints>=Levels[clickingLevel].cost1) {
+            getClick = (b) => {
+                currentPoints= currentPoints + Levels[clickingLevel].upgrade
+                $(".points").text(currentPoints)
+            }
+            currentPoints= currentPoints-Levels[clickingLevel].cost1
+            $(".points").text(currentPoints)
+            loadUpgradeMenu()
+            $('.clickingLevel').text(Levels[clickingLevel].level)
+            clickingLevel++
+        } else {console.log("You dont have enough points!")}
+    } else {console.log('Max Level!')}
 })
 
-
-//dtrtj
-
-$(".3").one("click", () => {
-    if (currentPoints >= 60) {
-        $(".mainButton").on("click", () => {
-            currentPoints= 5
-            writePoints(currentPoints)
-        })
-        currentPoints= currentPoints - 60
-        writePoints(currentPoints)
-        clickingLevel++
-        $(".clickingLevel").text("Level 3")
-        
-    } else {
-        console.log("You do not have enough points!")
-    }
-})
-
-$(".4").one("click", () => {
-    if (currentPoints >= 90) {
-        $(".mainButton").on("click", () => {
-            currentPoints++
-            writePoints(currentPoints)
-        })
-        currentPoints= currentPoints - 90
-        writePoints(currentPoints)
-        clickingLevel++
-        $(".clickingLevel").text("Level 4")
-        
-    } else {
-        console.log("You do not have enough points!")
-    }
-})
-
-$(".5").one("click", () => {
-    if (currentPoints >= 120) {
-        $(".mainButton").on("click", () => {
-            currentPoints++
-            writePoints(currentPoints)
-        })
-        currentPoints= currentPoints - 120
-        writePoints(currentPoints)
-        clickingLevel++
-        $(".clickingLevel").text("Level 5")
-        
-    } else {
-        console.log("You do not have enough points!")
-    }
-})
 
 //vége
-
-writePoints(currentPoints)

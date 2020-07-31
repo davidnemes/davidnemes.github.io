@@ -70,3 +70,26 @@ main {
 .clickingLevel {
     font-size: 30%;
 }
+
+.upgradesBig {
+    margin: 10% 25% 20% 25%;
+    text-align: center;
+    border: 1px solid black;
+    padding: 8% 0 8% 0;
+    background: #f3f2f3;
+}
+.upgradesBig:hover {
+    background: #dddddd
+}
+
+.upgradeButton {
+    padding: 5% 8% 5% 8%;
+    font-size: 150%;
+    margin: 2% 0 0 0;
+    border: 0;
+    background: #cac9ca
+}
+.upgradeButton:hover {
+    background: #0c3597;
+    color: white;
+}
