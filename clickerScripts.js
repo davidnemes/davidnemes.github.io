@@ -72,9 +72,23 @@ $(".upgradeButton").on("click", () => {
             loadUpgradeMenu()
             $('.clickingLevel').text(Levels[clickingLevel].level)
             clickingLevel++
-        } else {console.log("You dont have enough points!")}
-    } else {console.log('Max Level!')}
+        } else {alert("You don't have enough points!")}
+    } else {alert('Max Level!')}
 })
 
+//robot
+
+let robot = () => {
+    currentPoints++
+    $(".points").text(currentPoints)
+}
+
+$('.autoBuy').one('click', () => {
+    if (currentPoints>=100) {
+        currentPoints=currentPoints-100
+        $(".points").text(currentPoints)
+        window.setInterval(robot, 3000)
+    } else {alert("You don't have enough points!")}
+})
 
 //vége

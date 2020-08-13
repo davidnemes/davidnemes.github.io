@@ -39,6 +39,11 @@ main {
 .points {
     font-size: 400%;
 }
+.pointsOnTheRight {
+    position: fixed;
+    right: 3%;
+    font-size: 170%
+}
 
 .div1 {
     width: 80%;
@@ -59,20 +64,19 @@ main {
     font-size: 500%;
     box-shadow: 0 0 5px black;
 }
-
 .mainButton:hover{
     box-shadow: 0 0 10px red;
 }
 .mainButton:active {
     background: #0080FF;
 }
-
 .clickingLevel {
     font-size: 30%;
 }
 
-.upgradesBig {
-    margin: 10% 25% 20% 25%;
+
+.upgradesBig, .auto {
+    margin: 10% 25% 10% 25%;
     text-align: center;
     border: 1px solid black;
     padding: 8% 0 8% 0;
@@ -81,7 +85,6 @@ main {
 .upgradesBig:hover {
     background: #dddddd
 }
-
 .upgradeButton {
     padding: 5% 8% 5% 8%;
     font-size: 150%;
@@ -90,6 +93,26 @@ main {
     background: #cac9ca
 }
 .upgradeButton:hover {
+    background: #0c3597;
+    color: white;
+}
+
+
+.auto {
+    margin: 10% 20% 10% 20%;
+    text-align: center;
+    border: 1px solid black;
+    padding: 8% 0 8% 0;
+    background: #f3f2f3;
+}
+.autoBuy {
+    padding: 5% 8% 5% 8%;
+    font-size: 150%;
+    margin: 5% 0 0 0;
+    border: 0;
+    background: #cac9ca
+}
+.autoBuy:hover {
     background: #0c3597;
     color: white;
 }
