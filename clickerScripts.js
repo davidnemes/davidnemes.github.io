@@ -78,17 +78,111 @@ $(".upgradeButton").on("click", () => {
 
 //robot
 
+let robotLevel=0
+
+let robotExists = false
+
+let a
+
 let robot = () => {
     currentPoints++
     $(".points").text(currentPoints)
 }
 
-$('.autoBuy').one('click', () => {
-    if (currentPoints>=100) {
-        currentPoints=currentPoints-100
-        $(".points").text(currentPoints)
-        window.setInterval(robot, 3000)
-    } else {alert("You don't have enough points!")}
+let ifRobotBought = () => {
+    currentPoints=currentPoints-RobotLevels[robotLevel].cost1
+    $(".points").text(currentPoints)
+    a = window.setInterval(robot, 3000)
+    $('.autoSwitch').css('display', 'block')
+}
+
+let noRobot = {
+    cost1: 200,
+    cost2: 'Cost: 500',
+    title: 'Develop your robot!',
+    description: 'Upgrade your robot to earn 3 points in each 3 sec!',
+    currentRobotPerformance: 1,
+}
+
+let robotLevel1 = {
+    cost1: 500,
+    cost2: 'Cost: 1000',
+    title: 'Develop your robot!',
+    description: 'Upgrade your robot to earn 5 points in each 3 sec!',
+    currentRobotPerformance: 3,
+}
+
+let robotLevel2 = {
+    cost1: 1000,
+    upgrade: 3,
+    title: 'Max',
+    description: 'Good job! You have the best robot you can have.',
+    cost2: ' ',
+    currentRobotPerformance: 5,
+}
+
+let robotLevel3 = {
+    upgrade: 5,
+}
+
+let RobotLevels = [noRobot, robotLevel1, robotLevel2, robotLevel3]
+
+let loadRobotMenu= (levelnumber) => {
+    $(".autoTitle").text(RobotLevels[robotLevel].title)
+    $(".autoDescription").text(RobotLevels[robotLevel].description)
+    $(".autoCost").text(RobotLevels[robotLevel].cost2)
+    $('.currentRobotPerformance').text(RobotLevels[robotLevel].currentRobotPerformance)
+}
+
+$('.autoBuy').on('click', () => {
+    if (robotLevel<3) {
+        if (currentPoints>=RobotLevels[robotLevel].cost1) {
+                if (robotExists) {
+                    clearInterval(a)
+                    
+                    robot = () => {
+                        currentPoints=currentPoints+RobotLevels[robotLevel].upgrade
+                        $(".points").text(currentPoints)
+                    }
+                    currentPoints=currentPoints-RobotLevels[robotLevel].cost1
+                    $(".points").text(currentPoints)
+                    a = window.setInterval(robot, 3000)
+                    loadRobotMenu()
+                    robotLevel++
+                } else {
+                    ifRobotBought()
+                    loadRobotMenu()
+                    robotExists = true
+                    robotLevel++
+                }
+        } else {alert("You don't have enough points!")}
+    } else {alert('Max Level!')}
 })
+
+let robotIsOn = true
+
+$('.autoOffButton').on('click', () => {
+    if (robotIsOn) {
+        clearInterval(a)
+        $('.autoOffButton').css('background', '#ff2e2e')
+        $('.autoOffButton').css('border', '5px inset #cc2525')
+        $('.autoOnButton').css('background', 'rgb(224, 223, 223)')
+        $('.autoOnButton').css('border', '5px outset black')
+        robotIsOn=false
+    } else {}
+})
+
+$('.autoOnButton').on('click', () => {
+    if (robotIsOn) {} 
+    else {
+        a = window.setInterval(robot, 3000)
+        $('.autoOffButton').css('background', 'rgb(224, 223, 223)')
+        $('.autoOffButton').css('border', '5px outset black')
+        $('.autoOnButton').css('background', '#08ff26')
+        $('.autoOnButton').css('border', '5px inset #00cb19')
+        robotIsOn=true
+    }
+})
+
 
 //vége

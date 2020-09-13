@@ -13,6 +13,7 @@ body {
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
+    z-index: 2;
 }
 
 .mainTitle {
@@ -75,6 +76,12 @@ main {
 }
 
 
+.upgradeMainTitle, .autoMainTitle {
+    font-size: 275%;
+    font-family: sans-serif;
+    font-weight: 100;
+}
+
 .upgradesBig, .auto {
     margin: 10% 25% 10% 25%;
     text-align: center;
@@ -115,4 +122,34 @@ main {
 .autoBuy:hover {
     background: #0c3597;
     color: white;
+}
+
+
+.autoSwitch {
+    position: fixed;
+    top: 50%;
+    right: 15%;
+    text-align: center;
+    position: absolute;
+    border: 0px solid black;
+    top: 50%;
+    right: 6%;
+    z-index: 1;
+    display: none;
+}
+.autoSwitchTitle {
+    font-size: 250%;
+}
+.autoOnButton, .autoOffButton {
+    width: 30%;
+    height: 50px;
+    font-size: 120%;
+}
+.autoOnButton {
+    border: 5px inset #00cb19;
+    background: #08ff26;
+}
+.autoOffButton {
+    border: 5px outset black;
+    background: rgb(224, 223, 223);
 }
