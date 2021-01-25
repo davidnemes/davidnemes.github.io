@@ -5,10 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Test</title>
     <link rel="stylesheet" href="./mathStyle.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div>
-        <h1>Test you Math knowledge!</h1>
+
+    <div id='titleBox'>
+        <h1 id='titleHeader'>Test you Math knowledge!</h1>
+        <img src="https://res.cloudinary.com/dk-find-out/image/upload/q_70,c_pad,w_1200,h_630,f_auto/maths_icon_varwhq.jpg" alt="mathLogo" id='mathLogo'>
     </div>
+
+    <main id='main'>
+        
+        <button>Start!</button>
+        <p id='questionP'>You will be able to see the question here.</p>
+        <div id='answerBox'>
+            <button class='answerButton'>First answer</button>
+            <button class='answerButton'>Second answer</button>
+        </div>
+
+    </main>
+
+    <script src="./mathScripts.js"></script>
 </body>
 </html>
