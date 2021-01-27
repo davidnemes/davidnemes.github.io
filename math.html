@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="./mathStyle.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 <body>
 
@@ -16,16 +20,11 @@
     </div>
 
     <main id='main'>
+
         
-        <button>Start!</button>
-        <p id='questionP'>You will be able to see the question here.</p>
-        <div id='answerBox'>
-            <button class='answerButton'>First answer</button>
-            <button class='answerButton'>Second answer</button>
-        </div>
 
     </main>
-
-    <script src="./mathScripts.js"></script>
+    
+    <script src="./mathScripts.js" type='text/babel'></script>
 </body>
 </html>
