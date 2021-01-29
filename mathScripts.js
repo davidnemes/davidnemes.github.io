@@ -41,10 +41,22 @@ const getAQuestion = () => {
 
 //timers
 
+let set
+let go
+let theTimer
 let firstTimer
 let secondTimer
 let thirdTimer
 let fourthTimer
+
+//readySetGoH1 styles
+
+const dB = {
+    display: 'block'
+}
+const dN = {
+    display: 'none'
+}
 
 //components
 
@@ -74,6 +86,7 @@ class Game extends React.Component {
             firstButtonIsCorrect2: false,
             currentPoints: 0,
             isGameOver: false,
+            areButtonsDisabled: true,
         }
         this.handleGoodAnswer = this.handleGoodAnswer.bind(this)
         this.handleFailure = this.handleFailure.bind(this)
@@ -88,7 +101,25 @@ class Game extends React.Component {
             wrongAnswer2: newQ.wrongAnswer,
             firstButtonIsCorrect2: newQ.firstButtonIsCorrect,
         })
-        this.timingStarts()
+        this.readySetGo()
+    }
+
+    readySetGo() {
+        set = setTimeout(
+            () => {
+                document.getElementById('readySetGoH1').innerHTML = 'Set..'
+            }, 1000
+        )
+        go = setTimeout(
+            () => {
+                document.getElementById('readySetGoH1').innerHTML = 'Go!'
+            }, 2000
+        )
+        theTimer = setTimeout(
+            () => {
+                this.setState({areButtonsDisabled: false})
+                this.timingStarts()
+            }, 2500)
     }
 
     timingStarts() {
@@ -136,10 +167,10 @@ class Game extends React.Component {
     }
 
     handleFailure() {
+        this.stopTiming()
         this.setState({
             isGameOver: true,
         })
-        this.stopTiming()
     }
 
     handleRestart() {
@@ -151,8 +182,9 @@ class Game extends React.Component {
             firstButtonIsCorrect2: newQ.firstButtonIsCorrect,
             isGameOver: false,
             currentPoints: 0,
+            areButtonsDisabled: true,
         })
-        this.timingStarts()
+        this.readySetGo()
     }
 
     render() {
@@ -169,10 +201,13 @@ class Game extends React.Component {
                 <h1 id='currentScore'><span id='notTooImportant'>Your Score: </span><br></br>{this.state.currentPoints}</h1>
                 <h1 id='currentQuestion'>{this.state.questionString2}</h1>
                 <div id='answerBox'>
-                    <button className='answerButton' onClick={this.state.firstButtonIsCorrect2 ? this.handleGoodAnswer : this.handleFailure}>{this.state.firstButtonIsCorrect2 ? this.state.answer2 : this.state.wrongAnswer2}</button>
-                    <button className='answerButton' onClick={this.state.firstButtonIsCorrect2 ? this.handleFailure : this.handleGoodAnswer}>{this.state.firstButtonIsCorrect2 ? this.state.wrongAnswer2 : this.state.answer2}</button>
+                    <button className='answerButton' onClick={this.state.firstButtonIsCorrect2 ? this.handleGoodAnswer : this.handleFailure} disabled={this.state.areButtonsDisabled}>{this.state.firstButtonIsCorrect2 ? this.state.answer2 : this.state.wrongAnswer2}</button>
+                    <button className='answerButton' onClick={this.state.firstButtonIsCorrect2 ? this.handleFailure : this.handleGoodAnswer} disabled={this.state.areButtonsDisabled}>{this.state.firstButtonIsCorrect2 ? this.state.wrongAnswer2 : this.state.answer2}</button>
                 </div>
                 <p id='timer'>4...</p>
+                <div id='readySetGoDiv'>
+                    <h1 id='readySetGoH1' style={this.state.areButtonsDisabled ? dB : dN}>Ready...</h1>
+                </div>
             </div>
         )
     }

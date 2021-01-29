@@ -63,6 +63,23 @@ button {
     font-style: italic;
 }
 
+#readySetGoDiv {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    display: flex;
+    justify-content: center;   
+}
+
+#readySetGoH1 {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 1em 1.5em 1em 1.5em;
+    color: rgb(220, 238, 117);
+    margin: 0;
+    box-shadow: 0 0 5px black;
+    border-radius: 3px;
+}
+
 #restartButton {
     font-size: 130%;
     padding: 0.5em 1em 0.5em 1em;
