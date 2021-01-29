@@ -39,6 +39,13 @@ const getAQuestion = () => {
     return question
 }
 
+//timers
+
+let firstTimer
+let secondTimer
+let thirdTimer
+let fourthTimer
+
 //components
 
 class Menu extends React.Component {
@@ -73,7 +80,6 @@ class Game extends React.Component {
         this.handleRestart = this.handleRestart.bind(this)
     }
 
-
     componentDidMount() {
         let newQ = getAQuestion()
         this.setState({
@@ -82,6 +88,38 @@ class Game extends React.Component {
             wrongAnswer2: newQ.wrongAnswer,
             firstButtonIsCorrect2: newQ.firstButtonIsCorrect,
         })
+        this.timingStarts()
+    }
+
+    timingStarts() {
+        firstTimer = setTimeout(
+            () => {
+                document.getElementById('timer').innerHTML = '3...'
+            }, 1000
+        )
+        secondTimer = setTimeout(
+            () => {
+                document.getElementById('timer').innerHTML = '2...'
+            }, 2000
+        )
+        thirdTimer = setTimeout(
+            () => {
+                document.getElementById('timer').innerHTML = '1...'
+            }, 3000
+        )
+        fourthTimer = setTimeout(
+            () => {
+                this.handleFailure()
+            }, 4000
+        )
+    }
+
+    stopTiming() {
+        clearInterval(firstTimer)
+        clearInterval(secondTimer)
+        clearInterval(thirdTimer)
+        clearInterval(fourthTimer)
+        document.getElementById('timer').innerHTML = '4...'
     }
 
     handleGoodAnswer() {
@@ -93,12 +131,15 @@ class Game extends React.Component {
             firstButtonIsCorrect2: newQ.firstButtonIsCorrect,
             currentPoints: this.state.currentPoints + 1,
         })
+        this.stopTiming()
+        this.timingStarts()
     }
 
     handleFailure() {
         this.setState({
             isGameOver: true,
         })
+        this.stopTiming()
     }
 
     handleRestart() {
@@ -111,6 +152,7 @@ class Game extends React.Component {
             isGameOver: false,
             currentPoints: 0,
         })
+        this.timingStarts()
     }
 
     render() {
@@ -119,8 +161,8 @@ class Game extends React.Component {
             <div>
                 <h1>GAME OVER</h1>
                 <h3>Your final score: {this.state.currentPoints}</h3>
-                <button onClick={this.handleRestart}>Restart</button> <br></br>
-                <button onClick={this.props.quit}>Back to Menu</button>
+                <button onClick={this.handleRestart} id='restartButton'>Restart</button> <br></br>
+                <button onClick={this.props.quit} id='bactToMenuButton'>← Back to Menu</button>
             </div>
             :
             <div>
@@ -130,6 +172,7 @@ class Game extends React.Component {
                     <button className='answerButton' onClick={this.state.firstButtonIsCorrect2 ? this.handleGoodAnswer : this.handleFailure}>{this.state.firstButtonIsCorrect2 ? this.state.answer2 : this.state.wrongAnswer2}</button>
                     <button className='answerButton' onClick={this.state.firstButtonIsCorrect2 ? this.handleFailure : this.handleGoodAnswer}>{this.state.firstButtonIsCorrect2 ? this.state.wrongAnswer2 : this.state.answer2}</button>
                 </div>
+                <p id='timer'>4...</p>
             </div>
         )
     }
