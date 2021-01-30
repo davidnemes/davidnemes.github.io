@@ -7,8 +7,16 @@ const randomNum = (max) => {
 }
 
 const getAQuestion = () => {
-    let firstNum = randomNum(20)
-    let secondNum = randomNum(20)
+    let firstNum
+    let secondNum
+    if (isNormal) {
+        firstNum = randomNum(20)
+        secondNum = randomNum(20)
+    } else {
+        firstNum = randomNum(50)
+        secondNum = randomNum(50)
+    }
+    
     let task
     if(randomNum(2) === 1) {
         task = {string: ' + ', operation: true}
@@ -30,11 +38,21 @@ const getAQuestion = () => {
     }
     let firstButtonIsCorrect = randomNum(2) === 1
 
-    let question = {
-        questionString: firstNum + task.string + secondNum,
-        answer: answer,
-        wrongAnswer: wrongAnswer,
-        firstButtonIsCorrect: firstButtonIsCorrect,
+    let question
+    if (randomNum(100) === 56) {
+        question = {
+            questionString: 'Do you like the game?',
+            answer: "Yeah, it's cool",
+            wrongAnswer: "Bro it's shit",
+            firstButtonIsCorrect: firstButtonIsCorrect,
+            }
+    } else {
+        question = {
+            questionString: firstNum + task.string + secondNum,
+            answer: answer,
+            wrongAnswer: wrongAnswer,
+            firstButtonIsCorrect: firstButtonIsCorrect,
+        }
     }
     return question
 }
@@ -58,6 +76,16 @@ const dN = {
     display: 'none'
 }
 
+//difficulty function and isNormal
+
+let isNormal = true
+const handleDifficultChange = () => {
+    if (isNormal) {
+        isNormal = false
+    } else {
+        isNormal = true
+    }
+}
 //components
 
 class Menu extends React.Component {
@@ -71,6 +99,13 @@ class Menu extends React.Component {
                 <h1>Are you good in Math?</h1>
                 <h3>Do this minigame to find out!</h3>
                 <button id='startButton' onClick={this.props.start}>START</button>
+                <div id='difficultContainer'>
+                    <h3>Difficulty</h3>
+                    <input type='radio' name='difficult' id='normal' value='normal' defaultChecked={isNormal} onChange={handleDifficultChange}></input>
+                    <label htmlFor='normal'>Normal</label><br></br>
+                    <input type='radio' name='difficult' id='hard' value='hard' defaultChecked={!isNormal} onChange={handleDifficultChange}></input>
+                    <label htmlFor='hard'>Hard</label>
+                </div>
             </div>
         )
     }

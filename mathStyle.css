@@ -91,3 +91,11 @@ button {
     font-size: 115%;
     padding: 1em 1.5em 1em 1.5em;
 }
+
+#difficultContainer {
+    text-align: left;
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    width:auto;
+}
