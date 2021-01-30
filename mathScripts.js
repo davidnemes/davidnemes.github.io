@@ -2,6 +2,8 @@
 
 //questionMaker
 
+let easterEgg = false
+
 const randomNum = (max) => {
     return Math.floor(Math.random() * max + 1)
 }
@@ -39,14 +41,16 @@ const getAQuestion = () => {
     let firstButtonIsCorrect = randomNum(2) === 1
 
     let question
-    if (randomNum(100) === 56) {
+    if (randomNum(11) === 10) {
+        easterEgg = true
         question = {
             questionString: 'Do you like the game?',
             answer: "Yeah, it's cool",
             wrongAnswer: "Bro it's shit",
             firstButtonIsCorrect: firstButtonIsCorrect,
-            }
+        }
     } else {
+        easterEgg = false
         question = {
             questionString: firstNum + task.string + secondNum,
             answer: answer,
@@ -158,26 +162,30 @@ class Game extends React.Component {
     }
 
     timingStarts() {
-        firstTimer = setTimeout(
-            () => {
-                document.getElementById('timer').innerHTML = '3...'
-            }, 1000
-        )
-        secondTimer = setTimeout(
-            () => {
-                document.getElementById('timer').innerHTML = '2...'
-            }, 2000
-        )
-        thirdTimer = setTimeout(
-            () => {
-                document.getElementById('timer').innerHTML = '1...'
-            }, 3000
-        )
-        fourthTimer = setTimeout(
-            () => {
-                this.handleFailure()
-            }, 4000
-        )
+        if(easterEgg) {
+            return
+        } else {
+            firstTimer = setTimeout(
+                () => {
+                    document.getElementById('timer').innerHTML = '3...'
+                }, 1000
+            )
+            secondTimer = setTimeout(
+                () => {
+                    document.getElementById('timer').innerHTML = '2...'
+                }, 2000
+            )
+            thirdTimer = setTimeout(
+                () => {
+                    document.getElementById('timer').innerHTML = '1...'
+                }, 3000
+            )
+            fourthTimer = setTimeout(
+                () => {
+                    this.handleFailure()
+                }, 4000
+            )
+        }
     }
 
     stopTiming() {
