@@ -41,7 +41,7 @@ const getAQuestion = () => {
     let firstButtonIsCorrect = randomNum(2) === 1
 
     let question
-    if (randomNum(11) === 10) {
+    if (randomNum(100) === 77) {
         easterEgg = true
         question = {
             questionString: 'Do you like the game?',
