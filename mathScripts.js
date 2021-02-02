@@ -90,6 +90,12 @@ const handleDifficultChange = () => {
         isNormal = true
     }
 }
+
+//leaderboard global variables
+
+let currentPoints = 0
+let currentBestScores = []
+
 //components
 
 class Menu extends React.Component {
@@ -123,7 +129,6 @@ class Game extends React.Component {
             answer2: 5,
             wrongAnswer2: 4,
             firstButtonIsCorrect2: false,
-            currentPoints: 0,
             isGameOver: false,
             areButtonsDisabled: true,
         }
@@ -197,13 +202,13 @@ class Game extends React.Component {
     }
 
     handleGoodAnswer() {
+        currentPoints++
         let newQ = getAQuestion()
         this.setState({
             questionString2: newQ.questionString,
             answer2: newQ.answer,
             wrongAnswer2: newQ.wrongAnswer,
             firstButtonIsCorrect2: newQ.firstButtonIsCorrect,
-            currentPoints: this.state.currentPoints + 1,
         })
         this.stopTiming()
         this.timingStarts()
@@ -217,6 +222,7 @@ class Game extends React.Component {
     }
 
     handleRestart() {
+        currentPoints = 0
         let newQ = getAQuestion()
         this.setState({
             questionString2: newQ.questionString,
@@ -224,7 +230,6 @@ class Game extends React.Component {
             wrongAnswer2: newQ.wrongAnswer,
             firstButtonIsCorrect2: newQ.firstButtonIsCorrect,
             isGameOver: false,
-            currentPoints: 0,
             areButtonsDisabled: true,
         })
         this.readySetGo()
@@ -241,7 +246,7 @@ class Game extends React.Component {
             </div>
             :
             <div>
-                <h1 id='currentScore'><span id='notTooImportant'>Your Score: </span><br></br>{this.state.currentPoints}</h1>
+                <h1 id='currentScore'><span id='notTooImportant'>Your Score: </span><br></br>{currentPoints}</h1>
                 <h1 id='currentQuestion'>{this.state.questionString2}</h1>
                 <div id='answerBox'>
                     <button className='answerButton' onClick={this.state.firstButtonIsCorrect2 ? this.handleGoodAnswer : this.handleFailure} disabled={this.state.areButtonsDisabled}>{this.state.firstButtonIsCorrect2 ? this.state.answer2 : this.state.wrongAnswer2}</button>
@@ -251,6 +256,24 @@ class Game extends React.Component {
                 <div id='readySetGoDiv'>
                     <h1 id='readySetGoH1' style={this.state.areButtonsDisabled ? dB : dN}>Ready...</h1>
                 </div>
+            </div>
+        )
+    }
+}
+
+class LeaderBoard extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+            <div>
+                <h3>Leader Board</h3>
+                <ol>
+                    <li>this is the first</li>
+                    <li>this is the second</li>
+                </ol>
             </div>
         )
     }
@@ -276,7 +299,13 @@ class Main extends React.Component {
 
     render() {
         return (
-            this.state.isInGame ? <Game quit={this.handleReturn}/> : <Menu start={this.handleStart}/>
+            <div>
+                {this.state.isInGame ? <Game quit={this.handleReturn}/> : <Menu start={this.handleStart}/>}
+                <div id='leaderBoard'>
+                    <LeaderBoard />
+                </div>
+            </div>
+
         )
     }
 }

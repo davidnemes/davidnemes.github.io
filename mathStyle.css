@@ -9,6 +9,13 @@ button {
     cursor: pointer;
 }
 
+#warningP {
+    font-size: 75%;
+    margin: 0;
+    text-align: center;
+    font-style: italic;
+}
+
 #titleBox {
     display: flex;
     align-items: center;
@@ -98,4 +105,16 @@ button {
     top: 20%;
     left: 5%;
     width:auto;
+}
+
+#leaderBoard {
+    background-color: rgb(220, 220, 220);
+    border-radius: 4px;
+    margin: 0;
+    width: 30%;
+    position: absolute;
+    top: 0;
+    right: -35%;
+    text-align: left;
+    padding: 0 0 0 3%;
 }
