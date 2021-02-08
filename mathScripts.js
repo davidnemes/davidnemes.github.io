@@ -71,13 +71,19 @@ let secondTimer
 let thirdTimer
 let fourthTimer
 
-//readySetGoH1 styles
+//styles
 
 const dB = {
     display: 'block'
 }
 const dN = {
     display: 'none'
+}
+const cR = {
+    color: 'red'
+}
+const cB = {
+    color: 'blue'
 }
 
 //difficulty function and isNormal
@@ -91,10 +97,44 @@ const handleDifficultChange = () => {
     }
 }
 
-//leaderboard global variables
+//leaderboard
 
 let currentPoints = 0
 let currentBestScores = []
+let scoreIDGlobal = 0
+
+const orderBestScores = () => {
+    let raw = currentBestScores
+    let usedScoreIDs = []
+    let ordered = []
+    
+    for (let bigI=0; bigI<raw.length; bigI++) {
+        let currentBest = {points: 0}
+
+        for (let i=0; i<raw.length; i++) {
+            let currentScoreObj = raw[i]
+
+            if ( usedScoreIDs.every( x => x !== currentScoreObj.scoreID) ) {
+                if (currentBest.points === currentScoreObj.points) {
+                    if(!currentScoreObj.difficult && currentBest.difficult) {
+                        currentBest = currentScoreObj
+                    }
+                }
+                if (currentBest.points < currentScoreObj.points) {
+                    currentBest = currentScoreObj
+                }
+            }
+        }
+
+        ordered.push(currentBest)
+        usedScoreIDs.push(currentBest.scoreID)
+    }
+    currentBestScores = ordered
+    return
+}
+const refreshLeaderBoard = () => {
+
+}
 
 //components
 
@@ -138,6 +178,7 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
+        currentPoints = 0
         let newQ = getAQuestion()
         this.setState({
             questionString2: newQ.questionString,
@@ -216,6 +257,11 @@ class Game extends React.Component {
 
     handleFailure() {
         this.stopTiming()
+        if (currentPoints !== 0) {
+            currentBestScores.push({points: currentPoints, difficult: isNormal, scoreID: scoreIDGlobal})
+        }
+        orderBestScores()
+        scoreIDGlobal++
         this.setState({
             isGameOver: true,
         })
@@ -261,24 +307,6 @@ class Game extends React.Component {
     }
 }
 
-class LeaderBoard extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <div>
-                <h3>Leader Board</h3>
-                <ol>
-                    <li>this is the first</li>
-                    <li>this is the second</li>
-                </ol>
-            </div>
-        )
-    }
-}
-
 class Main extends React.Component {
     constructor(props) {
         super(props)
@@ -301,9 +329,6 @@ class Main extends React.Component {
         return (
             <div>
                 {this.state.isInGame ? <Game quit={this.handleReturn}/> : <Menu start={this.handleStart}/>}
-                <div id='leaderBoard'>
-                    <LeaderBoard />
-                </div>
             </div>
 
         )
