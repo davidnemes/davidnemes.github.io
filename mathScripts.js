@@ -132,8 +132,16 @@ const orderBestScores = () => {
     currentBestScores = ordered
     return
 }
-const refreshLeaderBoard = () => {
 
+const refreshLeaderBoard = () => {
+    let newLeaderBoard = (
+        <ol>
+            {currentBestScores.map((currentScore) => {
+                <li key={currentScore.scoreID} style={currentScore.difficult ? cB : cR}>{currentScore.points}</li>
+            })}
+        </ol>
+    )
+    document.getElementById('leaderBoardOlDiv').innerHTML = newLeaderBoard
 }
 
 //components
@@ -307,6 +315,28 @@ class Game extends React.Component {
     }
 }
 
+class LeaderBoard extends React.Component {
+    constructor(props) {
+        super(props)
+
+    }
+
+    render() {
+        return (
+            <div id='leaderBoard'>
+                <h3>Leader Board</h3>
+                <div id='leaderBoardOlDiv'>
+                    <ol>
+                        {currentBestScores.map((y) => {
+                            return <li key={y.scoreID} style={y.difficult ? cB : cR}>{y.points}</li>
+                        })}
+                    </ol>
+                </div>
+            </div>
+        )
+    }
+}
+
 class Main extends React.Component {
     constructor(props) {
         super(props)
@@ -329,8 +359,8 @@ class Main extends React.Component {
         return (
             <div>
                 {this.state.isInGame ? <Game quit={this.handleReturn}/> : <Menu start={this.handleStart}/>}
+                <LeaderBoard />
             </div>
-
         )
     }
 }
