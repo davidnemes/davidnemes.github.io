@@ -79,12 +79,6 @@ const dB = {
 const dN = {
     display: 'none'
 }
-const cR = {
-    color: 'red'
-}
-const cB = {
-    color: 'blue'
-}
 
 //difficulty function and isNormal
 
@@ -95,6 +89,11 @@ const handleDifficultChange = () => {
     } else {
         isNormal = true
     }
+}
+
+let currentName = 'Anonymous'
+const handleNameChange = (e) => {
+    currentName = e.target.value
 }
 
 //leaderboard
@@ -134,14 +133,26 @@ const orderBestScores = () => {
 }
 
 const refreshLeaderBoard = () => {
-    let newLeaderBoard = (
-        <ol>
-            {currentBestScores.map((currentScore) => {
-                <li key={currentScore.scoreID} style={currentScore.difficult ? cB : cR}>{currentScore.points}</li>
-            })}
-        </ol>
-    )
-    document.getElementById('leaderBoardOlDiv').innerHTML = newLeaderBoard
+    document.getElementById('leaderBoardOl').innerHTML = null
+    let maxScore
+    if (currentBestScores.length <= 10) {
+        maxScore = currentBestScores.length
+    } else {
+        maxScore = 10
+    }
+
+    for (let i=0; i<maxScore; i++) {
+        let node = document.createElement("LI")
+        let textNode = document.createTextNode(currentBestScores[i].name + ': ' + currentBestScores[i].points)
+        node.appendChild(textNode)
+        if (currentBestScores[i].difficult) {
+            node.style.color = "blue"
+        } else {
+            node.style.color = "red"
+        }
+        document.getElementById('leaderBoardOl').appendChild(node)
+    }
+    
 }
 
 //components
@@ -163,6 +174,10 @@ class Menu extends React.Component {
                     <label htmlFor='normal'>Normal</label><br></br>
                     <input type='radio' name='difficult' id='hard' value='hard' defaultChecked={!isNormal} onChange={handleDifficultChange}></input>
                     <label htmlFor='hard'>Hard</label>
+                </div>
+                <div id='nameContainer'>
+                    <label htmlFor='nameInput' id='nameInputLabel'>Your Name: </label>
+                    <input type='text' id='nameInput' defaultValue={currentName} onChange={handleNameChange}></input>
                 </div>
             </div>
         )
@@ -266,9 +281,10 @@ class Game extends React.Component {
     handleFailure() {
         this.stopTiming()
         if (currentPoints !== 0) {
-            currentBestScores.push({points: currentPoints, difficult: isNormal, scoreID: scoreIDGlobal})
+            currentBestScores.push({points: currentPoints, difficult: isNormal, scoreID: scoreIDGlobal, name: currentName})
         }
         orderBestScores()
+        refreshLeaderBoard()
         scoreIDGlobal++
         this.setState({
             isGameOver: true,
@@ -325,13 +341,9 @@ class LeaderBoard extends React.Component {
         return (
             <div id='leaderBoard'>
                 <h3>Leader Board</h3>
-                <div id='leaderBoardOlDiv'>
-                    <ol>
-                        {currentBestScores.map((y) => {
-                            return <li key={y.scoreID} style={y.difficult ? cB : cR}>{y.points}</li>
-                        })}
-                    </ol>
-                </div>
+                <ol id='leaderBoardOl'>
+                    
+                </ol>
             </div>
         )
     }

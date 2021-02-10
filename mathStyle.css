@@ -1,8 +1,9 @@
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     margin: 0;
     border-top: solid black 5px;
     background: rgb(230, 255, 255);
+    font-size: 110%;
 }
 
 button {
@@ -29,7 +30,7 @@ button {
 
 #main {
     text-align: center;
-    width: 40%;
+    width: 45%;
     margin: 5em auto 0 auto;
     border: solid black 4px;
     position: relative;
@@ -39,6 +40,10 @@ button {
     font-size: 150%;
     padding: 0.7em 1em 0.7em 1em;
     margin: 0.2em 0 1em 0;
+    border: 1px solid grey;
+}
+#startButton:hover {
+    box-shadow:0 0 2px black;
 }
 
 #notTooImportant {
@@ -117,4 +122,17 @@ button {
     right: -40%;
     text-align: left;
     padding: 0 0 0 1%;
+}
+#leaderBoardOl {
+    font-size: 105%;
+}
+
+#nameContainer {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+}
+#nameInput {
+    border: 1px solid grey;
+    background-color: rgb(215, 255, 255);
 }
