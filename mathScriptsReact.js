@@ -177,7 +177,7 @@ class Menu extends React.Component {
                 </div>
                 <div id='nameContainer'>
                     <label htmlFor='nameInput' id='nameInputLabel'>Your Name: </label>
-                    <input type='text' id='nameInput' defaultValue={currentName} onChange={handleNameChange}></input>
+                    <input type='text' id='nameInput' defaultValue={currentName} onChange={handleNameChange} maxlength='13'></input>
                 </div>
             </div>
         )

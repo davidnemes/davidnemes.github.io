@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Test</title>
     <link rel="stylesheet" href="./mathStyle.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap" rel="stylesheet"> 
 
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
@@ -17,7 +16,7 @@
 
     <div id='titleBox'>
         <h1 id='titleHeader'>Test your Math knowledge!</h1>
-        <img src="https://res.cloudinary.com/dk-find-out/image/upload/q_70,c_pad,w_1200,h_630,f_auto/maths_icon_varwhq.jpg" alt="mathLogo" id='mathLogo'>
+        <img src="./images/mathLogo.webp" alt="mathLogo" id='mathLogo'>
     </div>
 
     <main id='main'>
@@ -26,7 +25,14 @@
 
     </main>
 
-    <script src="./mathScriptsCompiled.js"></script>
-    <!--A sima js fájlt ebbe: <script type='text/babel'></script> -->
+    <script type='text/babel' src="./mathScriptsReact.js"></script>
+
+    <!--A react fájlt így: <script type='text/babel' src="./mathScriptsReact.js"></script> -->
+    <!-- Ezeket a head-be hogy a react működjön:
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    -->
+
 </body>
 </html>

@@ -105,9 +105,8 @@ button {
 }
 
 #difficultContainer {
-    text-align: left;
     position: absolute;
-    top: 20%;
+    bottom: 40%;
     left: 5%;
     width:auto;
 }
@@ -135,4 +134,26 @@ button {
 #nameInput {
     border: 1px solid grey;
     background-color: rgb(215, 255, 255);
+    width: 6vw;
+}
+
+@media screen and (max-width: 700px) {
+    #main {
+        width: 90%;
+    }
+    #leaderBoard {
+        position: static;
+        margin: 4vw 2vw 20% auto;
+        width: 40vw;
+    }
+    #titleHeader {
+        font-size: 6.5vw;
+    }
+    #nameInput {
+        display: block;
+        width: 20vw;
+    }
+    .answerButton{
+        font-size: 6vw;
+    }
 }
