@@ -1,0 +1,17 @@
+#gameBody {
+    padding: 1px;
+    border: solid black 2px;
+    display: flex;
+    width: 186px;
+    flex-wrap: wrap;
+}
+.gameSquare {
+    padding: 30px;
+    margin: 1px;
+    background-color: lightblue;
+    display: block;
+}
+img {
+    border: solid black 1px;
+    width: 60px;
+}
