@@ -6,22 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Five in a row game</title>
     <link rel="stylesheet" href="./five-in-a-rowStyle.css">
+
+    <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
-    <div id="gameBody">
-        <div class="gameSquare"></div>
-        <div class="gameSquare"></div>
-        <div class="gameSquare"></div>
-        <div class="gameSquare"></div>
-        <div class="gameSquare"></div>
-        <div class="gameSquare"></div>
-        <div class="gameSquare"></div>
-        <div class="gameSquare"></div>
-        <div class="gameSquare"></div>
-    </div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/1200px-Circle_-_black_simple.svg.png" alt="o">
-    <img src="https://www.houseofcharity.org/wp-content/uploads/2019/07/White-Square.jpg" alt="white">
-    <img src="https://www.teakauracing.com/wp-content/uploads/2016/03/X.png" alt="x">
+    <main id="main">
+        <div id="gameBody">
+            <img v-for="item in gameList" @click="gotClick" :id="item" src="https://www.houseofcharity.org/wp-content/uploads/2019/07/White-Square.jpg" alt="square" :key="item" class="gameSquare">
+        </div>
+    </main>
+    
+    <script src="./five-in-a-rowScripts.js"></script>
+    <script>
+        const mountedGame = game.mount('#main')
+    </script>
 
 </body>
 </html>
