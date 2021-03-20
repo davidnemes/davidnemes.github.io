@@ -1,25 +1,47 @@
 const game = Vue.createApp({
     data() {
         return {
-            gameList: ['item-1', 'item-2', 'item-3', 'item-4', 'item-5', 'item-6', 'item-7', 'item-8', 'item-9'],
+            gameList: [],
             xTurn: true,
             xSrc: './images/x-amobahoz.png',
             oSrc: './images/kor-amobahoz.png',
-            usedSquares: []
+            defaultSrc: './images/feherkocka-amobahoz.jpg',
+            styleObj: {},
+            numOfSquares: 144,
         }
     },
     methods: {
         gotClick(e) {
-            id = e.target.id
-            if (this.usedSquares.every( x => x !== id)) {
+            let id = e.target.id
+            let splittedId = id.split('-')
+            let numId = parseInt(splittedId[1]) - 1
+
+            if (!this.gameList[numId].isLocked) {
                 if(this.xTurn) {
-                    e.target.src = this.xSrc
+                    this.gameList[numId].src = this.xSrc
                 } else {
-                    e.target.src = this.oSrc
+                    this.gameList[numId].src = this.oSrc
                 }
                 this.xTurn = !this.xTurn
-                this.usedSquares.push(id)
+                this.gameList[numId].isLocked = true
             }
         },
+        resetGame() {
+            this.gameList.forEach(item => {
+                item.src = this.defaultSrc
+                item.isLocked = false
+            })
+            this.xTurn = true
+        },
+        prepareGame() {
+            for(let i=1; i<=this.numOfSquares; i++) {
+                let id = `item-${i}`
+                this.gameList.push({id: id, isLocked: false, src: this.defaultSrc})
+            }
+            let x = this.numOfSquares
+            let sqrt = Math.sqrt(x)
+            let width = ((x/sqrt)*40)+((x/sqrt)*2)
+            this.styleObj = {width: `${width}px`}
+        }
     }
 })

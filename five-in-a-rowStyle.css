@@ -6,11 +6,11 @@
     padding: 1px;
     border: solid black 2px;
     display: flex;
-    width: 186px;
     flex-wrap: wrap;
+    margin: 10px auto 0 auto;
 }
 .gameSquare {
     display: block;
     border: solid black 1px;
-    width: 60px;
+    width: 40px;
 }
