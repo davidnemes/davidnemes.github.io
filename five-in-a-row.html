@@ -12,7 +12,7 @@
 <body>
     <main id="main">
         <button id="resetGame" @click="resetGame">New Game</button>
-        <div id="gameBody" :style="styleObj">
+        <div id="gameBody">
             <img v-for="item in gameList" @click="gotClick" :id="item.id" :src="item.src" alt="square" :key="item.id" class="gameSquare">
         </div>
     </main>

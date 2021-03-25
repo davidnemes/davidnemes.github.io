@@ -1,3 +1,9 @@
+:root {
+    --gameBodyWidth: 10px;
+    --gameBodyWidthOnMobile: 5px;
+    /*ezek az értékek csak randomok, a javascript adja az igazi szélességet*/
+}
+
 #main {
     text-align: center;
 }
@@ -8,9 +14,19 @@
     display: flex;
     flex-wrap: wrap;
     margin: 10px auto 0 auto;
+    width: var(--gameBodyWidth)
 }
 .gameSquare {
     display: block;
     border: solid black 1px;
     width: 40px;
+}
+
+@media screen and (max-width: 800px) {
+    .gameSquare {
+        width: 20px;
+    }
+    #gameBody {
+        width: var(--gameBodyWidthOnMobile);
+    }
 }

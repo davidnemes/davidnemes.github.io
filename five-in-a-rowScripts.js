@@ -6,7 +6,6 @@ const game = Vue.createApp({
             xSrc: './images/x-amobahoz.png',
             oSrc: './images/kor-amobahoz.png',
             defaultSrc: './images/feherkocka-amobahoz.jpg',
-            styleObj: {},
             numOfSquares: 144,
         }
     },
@@ -33,15 +32,21 @@ const game = Vue.createApp({
             })
             this.xTurn = true
         },
+        //ez a method a játék előkészítését végzi, csak egyszer az elején van használva
         prepareGame() {
             for(let i=1; i<=this.numOfSquares; i++) {
                 let id = `item-${i}`
                 this.gameList.push({id: id, isLocked: false, src: this.defaultSrc})
             }
-            let x = this.numOfSquares
-            let sqrt = Math.sqrt(x)
-            let width = ((x/sqrt)*40)+((x/sqrt)*2)
-            this.styleObj = {width: `${width}px`}
+            //itt a gameBody szélességét számolom ki, állítom be a responsive megjelenéssel együtt
+            let sqrt = Math.sqrt(this.numOfSquares)
+            let width = (sqrt*40)+(sqrt*2)
+            let widthPx = `${width}px`
+            let widthMobile = (sqrt*20)+(sqrt*2)
+            let widthPxMobile = `${widthMobile}px`
+            let r = document.querySelector(':root')
+            r.style.setProperty('--gameBodyWidth', widthPx)
+            r.style.setProperty('--gameBodyWidthOnMobile', widthPxMobile)
         }
     }
 })
