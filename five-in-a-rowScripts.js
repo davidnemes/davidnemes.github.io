@@ -7,6 +7,7 @@ const game = Vue.createApp({
             oSrc: './images/kor-amobahoz.png',
             defaultSrc: './images/feherkocka-amobahoz.jpg',
             numOfSquares: 144,
+            gameOver: false,
         }
     },
     methods: {
@@ -20,7 +21,7 @@ const game = Vue.createApp({
         gotClick(e) {
             numId = this.getIdNum(e.target.id, true)
 
-            if (!this.gameList[numId].state) {
+            if (!this.gameList[numId].state && !this.gameOver) {
                 if(this.xTurn) {
                     this.gameList[numId].src = this.xSrc
                     this.gameList[numId].state = 'x'
@@ -29,17 +30,40 @@ const game = Vue.createApp({
                     this.gameList[numId].state = 'o'
                 }
                 this.xTurn = !this.xTurn
+                this.checkGameEnd()
             }
         },
         checkGameEnd() {
             let sqsInARow = Math.sqrt(this.numOfSquares)
+            let totalBest = {kind: null, inARow: 1}
             this.gameList.forEach(square => {
                 if(!square.state) {
                     return
                 }
-                let sqId = this.getIdNum(square.id, false)
+                let sqId = this.getIdNum(square.id, true)
                 let sqPos = square.position
+                let sqState = square.state
+                let best = 1
                 switch(sqPos) {
+                    case 'normal':
+                        let normalTests = [-sqsInARow-1, -sqsInARow, -sqsInARow+1, -1, 1, sqsInARow-1, sqsInARow, sqsInARow+1]
+                        normalTests.forEach(difference => {
+                            let result = 1
+                            let currentIdToCheck = sqId + difference
+                            let stillGood = true
+                            while(stillGood) {
+                                if(sqState === this.gameList[currentIdToCheck].state) {
+                                    result++
+                                    currentIdToCheck += difference
+                                } else {
+                                    stillGood = false
+                                }
+                            }
+                            if(result>best) {
+                                best = result
+                            }
+                        })
+                    break
                     case 'tlc':
                         
                     break
@@ -64,14 +88,24 @@ const game = Vue.createApp({
                     case 'right':
 
                     break
-                    case 'normal':
-
-                    break
                     default:
                         alert('Oops.. something went really wrong!')
                 }
 
+                if(best>totalBest.inARow) {
+                    totalBest.kind = sqState
+                    totalBest.inARow = best
+                }
             })
+            
+            if(totalBest.inARow === 5) {
+                if (totalBest.kind === 'x') {
+                    alert('X won!')
+                } else {
+                    alert('O won!')
+                }
+                this.gameOver = true
+            }
         },
         resetGame() {
             this.gameList.forEach(item => {
@@ -79,6 +113,7 @@ const game = Vue.createApp({
                 item.state = null
             })
             this.xTurn = true
+            this.gameOver = false
         },
         //ez a method a játék előkészítését végzi, csak egyszer az elején van használva
         prepareGame() {
