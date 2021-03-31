@@ -21,6 +21,9 @@
     border: solid black 1px;
     width: 40px;
 }
+.winningSquare {
+    border: solid red 1px;
+}
 
 @media screen and (max-width: 800px) {
     .gameSquare {

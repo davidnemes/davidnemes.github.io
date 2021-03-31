@@ -18,6 +18,7 @@ const game = Vue.createApp({
             }
             return parseInt(splittedId[1])
         },
+
         gotClick(e) {
             numId = this.getIdNum(e.target.id, true)
 
@@ -33,9 +34,10 @@ const game = Vue.createApp({
                 this.checkGameEnd()
             }
         },
+
         checkGameEnd() {
             let sqsInARow = Math.sqrt(this.numOfSquares)
-            let totalBest = {kind: null, inARow: 1}
+            let totalBest = {kind: null, inARow: 1, ids: []}
             this.gameList.forEach(square => {
                 if(!square.state) {
                     return
@@ -44,23 +46,32 @@ const game = Vue.createApp({
                 let sqPos = square.position
                 let sqState = square.state
                 let best = 1
+                let bestsIds = []
                 switch(sqPos) {
                     case 'normal':
                         let normalTests = [-sqsInARow-1, -sqsInARow, -sqsInARow+1, -1, 1, sqsInARow-1, sqsInARow, sqsInARow+1]
                         normalTests.forEach(difference => {
                             let result = 1
                             let currentIdToCheck = sqId + difference
+                            let currentIdsChecked = [] // ez a nyerő kockák pirosításához kell
+                            currentIdsChecked.push(sqId)
                             let stillGood = true
                             while(stillGood) {
                                 if(sqState === this.gameList[currentIdToCheck].state) {
                                     result++
-                                    currentIdToCheck += difference
+                                    currentIdsChecked.push(currentIdToCheck)
+                                    if(this.checkDifference(this.gameList[currentIdToCheck].position, difference, sqsInARow)) {
+                                        currentIdToCheck += difference
+                                    } else {
+                                        stillGood = false
+                                    }
                                 } else {
                                     stillGood = false
                                 }
                             }
                             if(result>best) {
                                 best = result
+                                bestsIds = currentIdsChecked
                             }
                         })
                     break
@@ -95,10 +106,14 @@ const game = Vue.createApp({
                 if(best>totalBest.inARow) {
                     totalBest.kind = sqState
                     totalBest.inARow = best
+                    totalBest.ids = bestsIds
                 }
             })
             
             if(totalBest.inARow === 5) {
+                totalBest.ids.forEach(id => {
+                    this.gameList[id].ifWonThenClass = 'winningSquare'
+                })
                 if (totalBest.kind === 'x') {
                     alert('X won!')
                 } else {
@@ -107,16 +122,84 @@ const game = Vue.createApp({
                 this.gameOver = true
             }
         },
+
+        checkDifference(position, diff, sqsInARow) { //ez a method fixeli a szélső kockákat
+            if(position === 'normal'){
+                return true
+            }
+            switch(position){
+                case 'left':
+                    if(diff===-sqsInARow-1 || diff===-1 || diff===sqsInARow-1) {
+                        return false
+                    } else {
+                        return true
+                    }
+                break
+                case 'top':
+                    if(diff===-sqsInARow-1 || diff===-sqsInARow || diff===-sqsInARow+1) {
+                        return false
+                    } else {
+                        return true
+                    }
+                break
+                case 'right':
+                    if(diff===-sqsInARow+1 || diff===1 || diff===sqsInARow+1) {
+                        return false
+                    } else {
+                        return true
+                    }
+                break
+                case 'bottom':
+                    if(diff===sqsInARow-1 || diff===sqsInARow || diff===sqsInARow+1) {
+                        return false
+                    } else {
+                        return true
+                    }
+                break
+                case 'tlc':
+                    if(diff===sqsInARow || diff===1 || diff===sqsInARow+1) {
+                        return true
+                    } else {
+                        return false
+                    }
+                break
+                case 'trc':
+                    if(diff===sqsInARow || diff===-1 || diff===sqsInARow-1) {
+                        return true
+                    } else {
+                        return false
+                    }
+                break
+                case 'blc':
+                    if(diff===-sqsInARow || diff===1 || diff===-sqsInARow+1) {
+                        return true
+                    } else {
+                        return false
+                    }
+                break
+                case 'brc':
+                    if(diff===-sqsInARow || diff===-1 || diff===-sqsInARow-1) {
+                        return true
+                    } else {
+                        return false
+                    }
+                break
+            }
+        },
+
         resetGame() {
             this.gameList.forEach(item => {
                 item.src = this.defaultSrc
                 item.state = null
+                item.ifWonThenClass = ''
             })
             this.xTurn = true
             this.gameOver = false
         },
+
         //ez a method a játék előkészítését végzi, csak egyszer az elején van használva
-        prepareGame() {
+        changeNumOfSquares() {
+            this.gameList = []
             for(let i=1; i<=this.numOfSquares; i++) {
                 
                 let id = `item-${i}`
@@ -147,7 +230,7 @@ const game = Vue.createApp({
                     sqPosition = 'normal'
                 }
 
-                this.gameList.push({id: id, state: null, position: sqPosition, src: this.defaultSrc})
+                this.gameList.push({id: id, state: null, position: sqPosition, src: this.defaultSrc, ifWonThenClass: '',})
             }
             //itt a gameBody szélességét számolom ki, állítom be a responsive megjelenéssel együtt
             let sqrt = Math.sqrt(this.numOfSquares)
@@ -159,5 +242,11 @@ const game = Vue.createApp({
             r.style.setProperty('--gameBodyWidth', widthPx)
             r.style.setProperty('--gameBodyWidthOnMobile', widthPxMobile)
         },
+
+        changeBoxSize(e) {
+            this.numOfSquares = e.target.value
+            console.log(this.numOfSquares)
+            this.changeNumOfSquares()
+        }
     }
 })

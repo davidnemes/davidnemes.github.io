@@ -11,16 +11,24 @@
 </head>
 <body>
     <main id="main">
+        <label for="boxSize">Box size:</label>
+        <select name="boxSize" id="boxSize" @change="changeBoxSize">
+            <option value="144">12 (default)</option>
+            <option value="64">8</option>
+            <option value="100">10</option>
+            <option value="225">15</option>
+            <option value="324">18</option>
+        </select>
         <button id="resetGame" @click="resetGame">New Game</button>
         <div id="gameBody">
-            <img v-for="item in gameList" @click="gotClick" :id="item.id" :src="item.src" alt="square" :key="item.id" class="gameSquare">
+            <img v-for="item in gameList" @click="gotClick" :id="item.id" :src="item.src" alt="square" :key="item.id" class="gameSquare" :class="item.ifWonThenClass">
         </div>
     </main>
 
     <script src="./five-in-a-rowScripts.js"></script>
     <script>
         const mountedGame = game.mount('#main')
-        mountedGame.prepareGame()
+        mountedGame.changeNumOfSquares()
     </script>
 
 </body>
