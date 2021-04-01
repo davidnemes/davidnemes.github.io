@@ -25,6 +25,10 @@
     border: solid red 1px;
 }
 
+#resetGame {
+    margin: 0 0 0 5px;
+}
+
 @media screen and (max-width: 800px) {
     .gameSquare {
         width: 20px;

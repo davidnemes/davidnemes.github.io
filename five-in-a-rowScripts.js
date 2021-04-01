@@ -50,57 +50,46 @@ const game = Vue.createApp({
                 switch(sqPos) {
                     case 'normal':
                         let normalTests = [-sqsInARow-1, -sqsInARow, -sqsInARow+1, -1, 1, sqsInARow-1, sqsInARow, sqsInARow+1]
-                        normalTests.forEach(difference => {
-                            let result = 1
-                            let currentIdToCheck = sqId + difference
-                            let currentIdsChecked = [] // ez a nyerő kockák pirosításához kell
-                            currentIdsChecked.push(sqId)
-                            let stillGood = true
-                            while(stillGood) {
-                                if(sqState === this.gameList[currentIdToCheck].state) {
-                                    result++
-                                    currentIdsChecked.push(currentIdToCheck)
-                                    if(this.checkDifference(this.gameList[currentIdToCheck].position, difference, sqsInARow)) {
-                                        currentIdToCheck += difference
-                                    } else {
-                                        stillGood = false
-                                    }
-                                } else {
-                                    stillGood = false
-                                }
-                            }
-                            if(result>best) {
-                                best = result
-                                bestsIds = currentIdsChecked
-                            }
-                        })
-                    break
-                    case 'tlc':
-                        
-                    break
-                    case 'trc':
-
-                    break
-                    case 'blc':
-
-                    break
-                    case 'brc':
-
-                    break
+                        let resultOfNormalTests = this.doTest(normalTests, sqId, sqState, sqsInARow)
+                        if(resultOfNormalTests.best>best) {
+                            best = resultOfNormalTests.best
+                            bestsIds = resultOfNormalTests.ids
+                        }
+                        break
                     case 'top':
-
-                    break
+                        let topTests = [-1, 1, sqsInARow-1, sqsInARow, sqsInARow+1]
+                        let resultOfTopTests = this.doTest(topTests, sqId, sqState, sqsInARow)
+                        if(resultOfTopTests.best>best) {
+                            best = resultOfTopTests.best
+                            bestsIds = resultOfTopTests.ids
+                        }
+                        break
                     case 'bottom':
-
-                    break
+                        let bottomTests = [-1, -sqsInARow-1, -sqsInARow, -sqsInARow+1, +1]
+                        let resultOfBottomTests = this.doTest(bottomTests, sqId, sqState, sqsInARow)
+                        if(resultOfBottomTests.best>best) {
+                            best = resultOfBottomTests.best
+                            bestsIds = resultOfBottomTests.ids
+                        }
+                        break
                     case 'left':
-
-                    break
+                        let leftTests = [-sqsInARow, -sqsInARow+1, +1, sqsInARow+1, sqsInARow]
+                        let resultOfLeftTests = this.doTest(leftTests, sqId, sqState, sqsInARow)
+                        if(resultOfLeftTests.best>best) {
+                            best = resultOfLeftTests.best
+                            bestsIds = resultOfLeftTests.ids
+                        }
+                        break
                     case 'right':
-
-                    break
-                    default:
-                        alert('Oops.. something went really wrong!')
+                        let rightTests = [-1, 1, sqsInARow-1, sqsInARow, sqsInARow+1]
+                        let resultOfRightTests = this.doTest(rightTests, sqId, sqState, sqsInARow)
+                        if(resultOfRightTests.best>best) {
+                            best = resultOfRightTests.best
+                            bestsIds = resultOfRightTests.ids
+                        }
+                        break
+                    default: //defaultnak a cornereket állítom be, azokat nem kell ellenőrizni mert biztos lesz egy másik ami ellenőrzi őket a másik oldalról
+                        return
                 }
 
                 if(best>totalBest.inARow) {
@@ -123,6 +112,36 @@ const game = Vue.createApp({
             }
         },
 
+        doTest(testsArr, sqId, sqState, sqsInARow) { //ezt a methodot azért tettem külön, mert sokszor kell felhasználni
+            let returnObj = {best: 1}
+            testsArr.forEach(difference => {
+                let result = 1
+                let currentIdToCheck = sqId + difference
+                let currentIdsChecked = [] // ez a nyerő kockák pirosításához kell
+                currentIdsChecked.push(sqId)
+                let stillGood = true
+                while(stillGood) {
+                    if(sqState === this.gameList[currentIdToCheck].state) {
+                        result++
+                        currentIdsChecked.push(currentIdToCheck)
+                        if(this.checkDifference(this.gameList[currentIdToCheck].position, difference, sqsInARow)) {
+                            currentIdToCheck += difference
+                        } else {
+                            stillGood = false
+                        }
+                    } else {
+                        stillGood = false
+                    }
+                }
+                if(result>returnObj.best) {
+                    returnObj.best = result
+                    returnObj.ids = currentIdsChecked
+                }
+            })
+
+            return returnObj
+        },
+
         checkDifference(position, diff, sqsInARow) { //ez a method fixeli a szélső kockákat
             if(position === 'normal'){
                 return true
@@ -134,56 +153,56 @@ const game = Vue.createApp({
                     } else {
                         return true
                     }
-                break
+                    break
                 case 'top':
                     if(diff===-sqsInARow-1 || diff===-sqsInARow || diff===-sqsInARow+1) {
                         return false
                     } else {
                         return true
                     }
-                break
+                    break
                 case 'right':
                     if(diff===-sqsInARow+1 || diff===1 || diff===sqsInARow+1) {
                         return false
                     } else {
                         return true
                     }
-                break
+                    break
                 case 'bottom':
                     if(diff===sqsInARow-1 || diff===sqsInARow || diff===sqsInARow+1) {
                         return false
                     } else {
                         return true
                     }
-                break
+                    break
                 case 'tlc':
                     if(diff===sqsInARow || diff===1 || diff===sqsInARow+1) {
                         return true
                     } else {
                         return false
                     }
-                break
+                    break
                 case 'trc':
                     if(diff===sqsInARow || diff===-1 || diff===sqsInARow-1) {
                         return true
                     } else {
                         return false
                     }
-                break
+                    break
                 case 'blc':
                     if(diff===-sqsInARow || diff===1 || diff===-sqsInARow+1) {
                         return true
                     } else {
                         return false
                     }
-                break
+                    break
                 case 'brc':
                     if(diff===-sqsInARow || diff===-1 || diff===-sqsInARow-1) {
                         return true
                     } else {
                         return false
                     }
-                break
+                    break
             }
         },
 
