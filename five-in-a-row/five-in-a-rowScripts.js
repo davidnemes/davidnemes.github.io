@@ -264,11 +264,8 @@ const game = Vue.createApp({
 
         changeBoxSize(e) {
             this.numOfSquares = e.target.value
-            console.log(this.numOfSquares)
             this.changeNumOfSquares()
-            if(this.gameOver) {
-                setTimeout(()=>{alert('You need to start a new game. Press New Game!')}, 2000)
-            }
+            this.resetGame()
         }
     }
 })
