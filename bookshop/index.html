@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookshop</title>
+
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <div id="outerDiv">
+
+        <header id="header">this is the header {{ data }}</header>
+        <main id="main">
+            <div id="signIn">
+                <h1>Welcome to our Bookshop!</h1>
+                <h3>Sign up or Log in</h3>
+                <form>
+                    <label for="usernameInput">Username:</label><br>
+                    <input type="text" id="usernameInput" class="textInput"><br>
+                    <label for="passwordInput">Password:</label><br>
+                    <input type="password" class="textInput"><br>
+                    <button>Sign Up</button>
+                </form>
+            </div>
+        </main>
+
+    </div> 
+    <script src="main.js"></script>
+    <script>
+        const mountedBookShop = bookShop.mount("#outerDiv")
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    font-family: "Saira", "sans-serif";
+}
+
+header {
+    padding: 10px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    background-color: aqua;
+}
+
+main {
+    margin: 50px auto 0 auto;
+    width: 80%;
+
+}
+
+#signIn {
+    text-align: center;
+    padding: 100px 0 0 0;
+}
+
+.textInput {
+    background-color: lightgray;
+    border-radius: 1em;
+    border: 1px solid black;
+    padding: 10px;
+}
