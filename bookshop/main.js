@@ -1,11 +1,15 @@
 const bookShop = Vue.createApp({
     data() {
         return {
-            data: 'data'
+            data: 'hey'
         }
     },
     methods: {
-
+        logInHappened(e) {
+            e.preventDefault()
+            let un = document.getElementById("usernameInput").value
+            let pw = document.getElementById("passwordInput").value
+        },
     },
 })
 
