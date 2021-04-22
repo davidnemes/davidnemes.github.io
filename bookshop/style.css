@@ -1,10 +1,9 @@
 body {
     margin: 0;
     font-family: "Saira", "sans-serif";
-    background-image: url("./backg-imgs/orange-block2.jpg");
+    background-image: url("./imgs/orange-block1.jpg");
     background-size: 100%;
 }
-
 button:hover {
     cursor: pointer;
 }
@@ -16,18 +15,16 @@ header {
     width: 100%;
     background-color: #ff3300;
 }
-
 main {
     margin: 50px auto 0 auto;
     width: 80%;
 
 }
 
-#signIn {
+#signIn, #registerBlock {
     text-align: center;
     padding: 100px 0 0 0;
 }
-
 .textInput {
     background-color: lightgray;
     border-radius: 10px;
@@ -40,4 +37,19 @@ main {
     border-radius: 5px;
     border: 0;
     margin: 10px 0 0 0;
+}
+.alert {
+    color: rgb(255, 30, 30);
+    font-style: italic;
+}
+#registerLink:hover {
+    color: rgb(30, 100, 255);
+    cursor: pointer;
+}
+.showTextButton {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 15px;
+    background-color: white;
 }

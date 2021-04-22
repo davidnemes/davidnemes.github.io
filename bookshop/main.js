@@ -1,7 +1,9 @@
 const bookShop = Vue.createApp({
     data() {
         return {
-            data: 'hey'
+            data: 'hey',
+            signedOut: true,
+            register: false
         }
     },
     methods: {
@@ -9,7 +11,43 @@ const bookShop = Vue.createApp({
             e.preventDefault()
             let un = document.getElementById("usernameInput").value
             let pw = document.getElementById("passwordInput").value
+            let alert = document.getElementById("signInAlert")
+            if(!un || !pw) {
+                alert.innerText = "*Please fill out both username and password!"
+                return
+            }
+            let unFound = false
+            let pwFound = false
+            accounts.forEach(user => {
+                if(un === user.un) {
+                    unFound = true
+                    if(pw === user.pw){
+                        pwFound = true
+                        this.signedOut = false
+                    }
+                }
+            })
+            if(!unFound) {
+                console.log('it ran')
+                alert.innerText = "*Mistyped username"
+                return
+            } else if (!pwFound) {
+                alert.innerText = "*Mistyped password"
+                return
+            }
+            alert.innerText = null
         },
+        registerClicked() {
+            this.register = true
+        },
+        showPw(id) {
+            let input = document.getElementById(id)
+            if(input.type === "password") {
+                input.type = 'text'
+            } else {
+                input.type = 'password'
+            }
+        }
     },
 })
 

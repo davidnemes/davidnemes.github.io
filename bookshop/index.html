@@ -14,18 +14,33 @@
 <body>
     <div id="outerDiv">
 
-        <header id="header">this is the header {{ data }}</header>
+        <header id="header"  v-if="!signedOut">this is the header {{ data }}</header>
+
         <main id="main">
-            <div id="signIn">
+            <div id="registerBlock" v-if="register">
+                <h2>All you need is a username and a password</h2>
+                <label for="registerUsername">Your Username:</label><br>
+                <input type="text" class="textInput" id="registerUsername"><br>
+                <label for="registerPassword">Your Password:</label><br>
+                <input type="password" id="registerPassword" class="textInput"><button @click="showPw('registerPassword')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
+                <label for="pwRepeat">Password Again:</label><br>
+                <input class="textInput" type="password" id="registerPasswordRepeat">
+            </div>
+            <div id="signIn" v-else-if="signedOut">
                 <h1>Welcome to our Bookshop!</h1>
                 <h3>Sign up or Log in</h3>
                 <form>
                     <label for="usernameInput">Username:</label><br>
                     <input type="text" id="usernameInput" class="textInput"><br>
                     <label for="passwordInput">Password:</label><br>
-                    <input type="password" class="textInput" id="passwordInput"><br>
+                    <input type="password" class="textInput" id="passwordInput"><button @click="showPw('passwordInput')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
                     <button class="submitButton" @click="logInHappened">Log in</button>
                 </form>
+                <p class="alert" id="signInAlert"></p>
+                <p id="registerLink" @click="registerClicked">Haven't you registrated yet?<br>Do it here</p>
+            </div>
+            <div v-else id="theShop">
+                under work
             </div>
         </main>
 
