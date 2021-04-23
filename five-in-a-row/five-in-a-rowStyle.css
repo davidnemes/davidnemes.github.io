@@ -20,6 +20,7 @@
     display: block;
     border: solid black 1px;
     width: 40px;
+    height: auto;
 }
 .winningSquare {
     border: solid red 1px;
