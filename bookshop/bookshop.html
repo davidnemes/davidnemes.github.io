@@ -14,10 +14,11 @@
 <body>
     <div id="outerDiv">
 
-        <header id="header"  v-if="!signedOut">this is the header {{ data }}</header>
+        <header id="header"  v-if="!signedOut">this is the header</header>
 
         <main id="main">
             <div id="registerBlock" v-if="register">
+                <img src="./imgs/arrow-icon.webp" alt="back" id="registerBackButton" @click="backToSignIn">
                 <h2>All you need is a username and a password</h2>
                 <label for="registerUsername">Your Username:</label><br>
                 <input type="text" class="textInput" id="registerUsername"><br>
