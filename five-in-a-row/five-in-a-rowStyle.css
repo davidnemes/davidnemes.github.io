@@ -32,6 +32,7 @@
 @media screen and (max-width: 800px) {
     .gameSquare {
         width: 20px;
+        height: 20px;
     }
     #gameBody {
         width: var(--gameBodyWidthOnMobile);
