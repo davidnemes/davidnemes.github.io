@@ -24,18 +24,21 @@
                 <label for="registerPassword">Your Password:</label><br>
                 <input type="password" id="registerPassword" class="textInput"><button @click="showPw('registerPassword')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
                 <label for="pwRepeat">Password Again:</label><br>
-                <input class="textInput" type="password" id="registerPasswordRepeat">
+                <input class="textInput" type="password" id="registerPasswordRepeat"><button @click="showPw('registerPasswordRepeat')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
+                <input type="checkbox" id="registerCheckbox" checked="true"><label for="registerCheckbox">Sign Me in</label><br>
+                <button @click="registerHappened" class="submitButton">Register</button>
+                <p class="alert" id="registerAlert"></p>
             </div>
             <div id="signIn" v-else-if="signedOut">
                 <h1>Welcome to our Bookshop!</h1>
                 <h3>Sign up or Log in</h3>
-                <form>
+                <div>
                     <label for="usernameInput">Username:</label><br>
                     <input type="text" id="usernameInput" class="textInput"><br>
                     <label for="passwordInput">Password:</label><br>
-                    <input type="password" class="textInput" id="passwordInput"><button @click="showPw('passwordInput')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
+                    <input type="password" class="textInput" id="passwordInput" maxlength="15"><button @click="showPw('passwordInput')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
                     <button class="submitButton" @click="logInHappened">Log in</button>
-                </form>
+                </div>
                 <p class="alert" id="signInAlert"></p>
                 <p id="registerLink" @click="registerClicked">Haven't you registrated yet?<br>Do it here</p>
             </div>
