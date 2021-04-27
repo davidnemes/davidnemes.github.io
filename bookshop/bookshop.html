@@ -14,7 +14,13 @@
 <body>
     <div id="outerDiv">
 
-        <header id="header" v-if="atShop">text</header>
+        <header id="header" v-if="atShop">
+            <img src="./imgs/basket-icon.jpg" alt="basket" id="basketIcon">
+            <img src="./imgs/account-icon2.png" alt="account" id="accountIcon" @click="openAccMenu">
+        </header>
+        <div v-if="accOpened" id="accMenu" @mouseover="longerCounting">
+            <p id="logOutP" @click="logOut">« Log Out</p>
+        </div>
 
         <main id="main">
             <div id="registerBlock" v-if="atRegister">
@@ -36,6 +42,7 @@
                     <div v-for="(book, index) in books" class="bookIconBox" :key="index">
                             <img :src="book.src" alt="img" class="bookIcon">
                         <p>{{ book.title }}</p>
+                        <p :id="book.id" class="showBookLink">Look »</p>
                     </div>
                 </div>
                 <div id="showBook">

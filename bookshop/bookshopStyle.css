@@ -9,14 +9,16 @@ button:hover {
 }
 
 header {
-    padding: 10px;
+    padding: 10px 0;
     position: fixed;
     top: 0px;
     width: 100%;
     background-color: #ff3300;
+    text-align: right;
+    z-index: 1;
 }
 main {
-    margin: 50px auto 0 auto;
+    margin: 75px auto 0 auto;
     width: 80%;
 }
 
@@ -43,7 +45,7 @@ main {
     color: rgb(255, 30, 30);
     font-style: italic;
 }
-#registerLink:hover {
+#registerLink:hover, .showBookLink:hover {
     color: rgb(30, 100, 255);
     cursor: pointer;
 }
@@ -90,6 +92,32 @@ main {
     width: auto;
     padding: 0 100px;
 }
+#accountIcon, #basketIcon {
+    cursor: pointer;
+    width: 40;
+    height: 40px;
+    border-radius: 20px;
+    margin-right: 30px;
+}
+#accMenu {
+    position: absolute;
+    top: 65px;
+    right: 10px;
+    z-index: 2;
+    background-color: rgb(200, 230, 225);
+    border: 1px solid blue;
+    padding: 5px 10px;
+}
+#accMenu:hover {
+    box-shadow: black 0 0 5px;
+}
+#logOutP {
+    font-weight: 500;
+    color: rgb(255, 30, 30);
+    margin: 0;
+    cursor: pointer;
+}
+
 
 @media screen and (max-width: 800px) {
     main {

@@ -3,14 +3,16 @@ const bookShop = Vue.createApp({
         return {
             accounts: [{un: 'bigreader01', pw: 'povHey9'}, {un: "jonas74", pw: "aks5We"}, {un: "phil_13", pw: "7ebnu8"}],
             books: [
-                {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg"},
-                {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg"},
-                {title: "Bible", src: "./imgs/book-covers/bible.jpg"},
-                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg"}
+                {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg", id:"2001"},
+                {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg", id:"2002"},
+                {title: "Bible", src: "./imgs/book-covers/bible.jpg", id:"2003"},
+                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg", id:"2004"}
             ],
             atSignIn: false,
             atRegister: false,
             atShop: true,
+            accOpened: false,
+            accCounter: null,
         }
     },
     methods: {
@@ -109,6 +111,28 @@ const bookShop = Vue.createApp({
             this.atRegister = false
             this.atSignIn = true
         },
+        openAccMenu() {
+            if(this.accOpened) {
+                this.accOpened = false
+                clearTimeout(this.accCounter)
+                return
+            } else {
+               this.accOpened = true
+            }
+            this.accCounter = setTimeout(() => {
+                this.accOpened = false
+            }, 3000)
+        },
+        longerCounting() {
+            clearTimeout(this.accCounter)
+            this.accCounter = setTimeout(() => {
+                this.accOpened = false
+            }, 7000)
+        },
+        logOut() {
+            this.atShop = false
+            this.atSignIn = true
+        }
     },
 })
 
