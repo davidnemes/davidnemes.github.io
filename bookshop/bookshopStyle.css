@@ -67,6 +67,30 @@ main {
     cursor: pointer;
 }
 
+
+#bookIconsOuterBox {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 800px;
+}
+.bookIconBox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: azure;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    width: 300px;
+}
+.bookIcon {
+    height: 150px;
+    width: auto;
+    padding: 0 100px;
+}
+
 @media screen and (max-width: 800px) {
     main {
         width: 95%;

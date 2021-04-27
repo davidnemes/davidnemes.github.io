@@ -2,8 +2,15 @@ const bookShop = Vue.createApp({
     data() {
         return {
             accounts: [{un: 'bigreader01', pw: 'povHey9'}, {un: "jonas74", pw: "aks5We"}, {un: "phil_13", pw: "7ebnu8"}],
-            signedOut: true,
-            register: false,
+            books: [
+                {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg"},
+                {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg"},
+                {title: "Bible", src: "./imgs/book-covers/bible.jpg"},
+                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg"}
+            ],
+            atSignIn: false,
+            atRegister: false,
+            atShop: true,
         }
     },
     methods: {
@@ -24,7 +31,8 @@ const bookShop = Vue.createApp({
                     unFound = true
                     if(pw === user.pw){
                         pwFound = true
-                        this.signedOut = false
+                        this.atSignIn = false
+                        this.atShop = true
                     }
                 }
             })
@@ -39,7 +47,8 @@ const bookShop = Vue.createApp({
             alert.innerText = null
         },
         registerClicked() { //this is the link to the registration form
-            this.register = true
+            this.atRegister = true
+            this.atSignIn = false
         },
         registerHappened() {
             //get datas
@@ -80,10 +89,11 @@ const bookShop = Vue.createApp({
             
             this.accounts.push({un: un, pw: pw})
             if(signIn) {
-                this.register = false
-                this.signedOut = false
+                this.atRegister = false
+                this.atShop = true
             } else {
-                this.register = false
+                this.atRegister = false
+                this.atSignIn = true
             }
             alert.innerHTML = null
         },
@@ -96,8 +106,9 @@ const bookShop = Vue.createApp({
             }
         },
         backToSignIn() {
-            this.register = false
-        }
+            this.atRegister = false
+            this.atSignIn = true
+        },
     },
 })
 
