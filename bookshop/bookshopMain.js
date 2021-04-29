@@ -3,16 +3,24 @@ const bookShop = Vue.createApp({
         return {
             accounts: [{un: 'bigreader01', pw: 'povHey9'}, {un: "jonas74", pw: "aks5We"}, {un: "phil_13", pw: "7ebnu8"}],
             books: [
-                {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg", id:"2001"},
-                {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg", id:"2002"},
-                {title: "Bible", src: "./imgs/book-covers/bible.jpg", id:"2003"},
-                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg", id:"2004"}
+                {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg", id: "2001", price: 2200},
+                {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg", id: "2002", price: 1990},
+                {title: "Bible", src: "./imgs/book-covers/bible.jpg", id: "2003", price: 3500},
+                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg", id: "2004", price: 2490}
             ],
+            cart: [],
+            addedToCartClass: '',
+            accCounter: null,
+            currentBook: {title: "Title", src: "src", id: "id"}, // default properties
+            //Conditional rendering booleans
             atSignIn: false,
             atRegister: false,
             atShop: true,
             accOpened: false,
-            accCounter: null,
+
+            noBookSelected: true,
+            bookSelected: false,
+            atCart: false,
         }
     },
     methods: {
@@ -111,6 +119,10 @@ const bookShop = Vue.createApp({
             this.atRegister = false
             this.atSignIn = true
         },
+
+        goToCart() {
+
+        },
         openAccMenu() {
             if(this.accOpened) {
                 this.accOpened = false
@@ -123,16 +135,48 @@ const bookShop = Vue.createApp({
                 this.accOpened = false
             }, 3000)
         },
-        longerCounting() {
+        longerCounting() { //this method makes sure that the Acc Menu wont dissappear too early
             clearTimeout(this.accCounter)
             this.accCounter = setTimeout(() => {
                 this.accOpened = false
-            }, 7000)
+            }, 5000)
         },
         logOut() {
             this.atShop = false
             this.atSignIn = true
-        }
+            this.accOpened = false
+        },
+
+        showBookClicked(e) {
+            let bookId = e.target.id
+            this.noBookSelected = false
+            this.bookSelected = true
+            this.books.forEach(book => {
+                if(bookId === book.id) {
+                    this.currentBook = book
+                }
+            })
+        },
+        addToCart() {
+            let bookNumStr = getEl("bookNumInput").value
+            let bookNum = parseInt(bookNumStr)
+            let alert = getEl('addToCartAlert')
+            //check validation
+            if(!bookNum || bookNum < 1 || bookNum > 15) {
+                alert.innerText = "*Invalid Book Quantity"
+                return
+            }
+            this.cart.push(this.currentBook.id)
+            this.addedToCartClass = 'addedToCart'
+            setTimeout(() => {
+                this.addedToCartClass = ''
+            }, 750)
+            alert.innerText = null
+        },
+        backToBooks() {
+            this.bookSelected = false
+            this.noBookSelected = true
+        },
     },
 })
 

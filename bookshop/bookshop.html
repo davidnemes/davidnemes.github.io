@@ -15,7 +15,7 @@
     <div id="outerDiv">
 
         <header id="header" v-if="atShop">
-            <img src="./imgs/basket-icon.jpg" alt="basket" id="basketIcon">
+            <img src="./imgs/cart-icon.jpg" alt="cart" id="cartIcon" :class="addedToCartClass">
             <img src="./imgs/account-icon2.png" alt="account" id="accountIcon" @click="openAccMenu">
         </header>
         <div v-if="accOpened" id="accMenu" @mouseover="longerCounting">
@@ -38,15 +38,30 @@
             </div>
             <sign-in :atsignin="atSignIn" @show-pw="showPw" @log-in="logInHappened" @register="registerClicked"></sign-in>
             <div v-if="atShop" id="theShop">
-                <div id="bookIconsOuterBox">
+                <div id="bookIconsOuterBox" v-if="noBookSelected">
                     <div v-for="(book, index) in books" class="bookIconBox" :key="index">
                             <img :src="book.src" alt="img" class="bookIcon">
                         <p>{{ book.title }}</p>
-                        <p :id="book.id" class="showBookLink">Look »</p>
+                        <p :id="book.id" class="showBookLink" style="margin: 0;" @click="showBookClicked">Look »</p>
                     </div>
                 </div>
-                <div id="showBook">
-                    
+                <div id="showBookOuter" v-if="bookSelected">
+                    <img src="./imgs/arrow-icon.webp" alt="back" id="showBookBackButton" @click="backToBooks">
+                    <div id="showBookInner">
+                        <div id="bookIconBigDiv">
+                            <img :src="currentBook.src" alt="book" id="bookIconBig">
+                        </div>
+                        <div id="showBookDetails">
+                            <h2>{{ currentBook.title }}</h2>
+                            <h3 style="color: black;">{{ currentBook.price }} Ft</h3>
+                            <input type="number" id="bookNumInput" value="1" min="1" max="15" >
+                            <button class="submitButton" @click="addToCart" :class="addedToCartClass">Put to Cart</button>
+                            <p class="alert" id="addToCartAlert"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="cart" v-if="atCart">
+
                 </div>
             </div>
         </main>
