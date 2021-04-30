@@ -15,8 +15,8 @@
     <div id="outerDiv">
 
         <header id="header" v-if="atShop">
-            <img src="./imgs/cart-icon.jpg" alt="cart" id="cartIcon" :class="addedToCartClass">
-            <img src="./imgs/account-icon2.png" alt="account" id="accountIcon" @click="openAccMenu">
+            <img src="./imgs/cart-icon.jpg" alt="cart" id="cartIcon" :class="addedToCartClass" @click="toCart">
+            <img src="./imgs/account-icon2.png" alt="account" id="accountIcon" @click="accMenuClicked">
         </header>
         <div v-if="accOpened" id="accMenu" @mouseover="longerCounting">
             <p id="logOutP" @click="logOut">« Log Out</p>
@@ -55,13 +55,17 @@
                             <h2>{{ currentBook.title }}</h2>
                             <h3 style="color: black;">{{ currentBook.price }} Ft</h3>
                             <input type="number" id="bookNumInput" value="1" min="1" max="15" >
-                            <button class="submitButton" @click="addToCart" :class="addedToCartClass">Put to Cart</button>
+                            <button class="submitButton" @click="addToCart" :class="addedToCartClass" :disabled="addedToCartClass">Put to Cart</button>
                             <p class="alert" id="addToCartAlert"></p>
                         </div>
                     </div>
                 </div>
-                <div id="cart" v-if="atCart">
-
+                <div id="cart" v-if="seeCart">
+                    <div v-for="book in cart">
+                        <h4>{{ book.title }}</h4> 
+                        <p>{{ book.quantity }}</p>
+                        <p>{{ book.price }} Ft</p>
+                    </div>
                 </div>
             </div>
         </main>

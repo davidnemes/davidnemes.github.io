@@ -9,7 +9,7 @@ const bookShop = Vue.createApp({
                 {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg", id: "2004", price: 2490}
             ],
             cart: [],
-            addedToCartClass: '',
+            addedToCartClass: null,
             accCounter: null,
             currentBook: {title: "Title", src: "src", id: "id"}, // default properties
             //Conditional rendering booleans
@@ -17,10 +17,9 @@ const bookShop = Vue.createApp({
             atRegister: false,
             atShop: true,
             accOpened: false,
-
             noBookSelected: true,
             bookSelected: false,
-            atCart: false,
+            seeCart: false,
         }
     },
     methods: {
@@ -54,6 +53,7 @@ const bookShop = Vue.createApp({
                 alert.innerText = "*Mistyped password"
                 return
             }
+            //if everything is good, alert should be empty
             alert.innerText = null
         },
         registerClicked() { //this is the link to the registration form
@@ -123,7 +123,7 @@ const bookShop = Vue.createApp({
         goToCart() {
 
         },
-        openAccMenu() {
+        accMenuClicked() {
             if(this.accOpened) {
                 this.accOpened = false
                 clearTimeout(this.accCounter)
@@ -166,10 +166,34 @@ const bookShop = Vue.createApp({
                 alert.innerText = "*Invalid Book Quantity"
                 return
             }
-            this.cart.push(this.currentBook.id)
+
+            let price = bookNum * this.currentBook.price
+            //check if the book is already added to the cart
+            let itsThere = false
+            this.cart.forEach(book => {
+                if(book.title === this.currentBook.title) {
+                    itsThere = true
+                    if(!book.quantity) {
+                        book.quantity = bookNum + 1
+                    } else {
+                        book.quantity += bookNum
+                    }
+                    
+                    book.price += price
+                }
+            })
+
+            if(!itsThere) {
+                if(bookNum === 1) {
+                    this.cart.push({title: this.currentBook.title, price: price, quantity: null}) //null means the user ordered only 1 book ; it's more useful at the rendering of the cart
+                } else {
+                    this.cart.push({title: this.currentBook.title, price: price, quantity: bookNum})
+                }
+            }
+            //this
             this.addedToCartClass = 'addedToCart'
             setTimeout(() => {
-                this.addedToCartClass = ''
+                this.addedToCartClass = null
             }, 750)
             alert.innerText = null
         },
@@ -177,6 +201,11 @@ const bookShop = Vue.createApp({
             this.bookSelected = false
             this.noBookSelected = true
         },
+        toCart() {
+            this.bookSelected = false
+            this.noBookSelected = false
+            this.seeCart = true
+        }
     },
 })
 

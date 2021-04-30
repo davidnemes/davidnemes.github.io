@@ -122,7 +122,7 @@ main {
     cursor: pointer;
 }
 
-#showBookOuter {
+#showBookOuter, #cart {
     width: 800px;
     margin: auto;
 }
