@@ -11,15 +11,18 @@ const bookShop = Vue.createApp({
             cart: [],
             addedToCartClass: null,
             accCounter: null,
-            currentBook: {title: "Title", src: "src", id: "id"}, // default properties
+            currentBook: {},
             //Conditional rendering booleans
             atSignIn: false,
             atRegister: false,
             atShop: true,
-            accOpened: false,
+
             noBookSelected: true,
             bookSelected: false,
             seeCart: false,
+
+            accOpened: false,
+            cartIsEmpty: true,
         }
     },
     methods: {
@@ -120,9 +123,6 @@ const bookShop = Vue.createApp({
             this.atSignIn = true
         },
 
-        goToCart() {
-
-        },
         accMenuClicked() {
             if(this.accOpened) {
                 this.accOpened = false
@@ -167,6 +167,7 @@ const bookShop = Vue.createApp({
                 return
             }
 
+            this.cartIsEmpty = false
             let price = bookNum * this.currentBook.price
             //check if the book is already added to the cart
             let itsThere = false
@@ -199,12 +200,23 @@ const bookShop = Vue.createApp({
         },
         backToBooks() {
             this.bookSelected = false
+            this.seeCart = false
             this.noBookSelected = true
         },
         toCart() {
             this.bookSelected = false
             this.noBookSelected = false
             this.seeCart = true
+        },
+    },
+    computed: {
+        totalPrice() {
+            let prices = []
+            this.cart.forEach(book => {
+                let price = book.price
+                prices.push(price)
+            })
+            return prices.reduce((acc, current) => acc + current)
         }
     },
 })

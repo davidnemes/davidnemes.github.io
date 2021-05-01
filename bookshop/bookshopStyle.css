@@ -61,7 +61,7 @@ main {
 #passwordInput, #registerPassword, #registerPasswordRepeat {
     margin-left: 30px;
 }
-#registerBackButton, #showBookBackButton {
+#registerBackButton, #simpleBackButton {
     transform: rotate(180deg);
     width: 30px;
     cursor: pointer;
@@ -153,7 +153,18 @@ main {
     padding: 5px 3px;
     font-size: 90%;
 }
-
+.cartRow {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid grey 1px;
+    margin-bottom: 0px;
+}
+.innerCartRow {
+    width: 100px;
+}
+#cartAll {
+    border: 0;
+}
 
 @media screen and (max-width: 800px) {
     main {
