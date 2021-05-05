@@ -6,12 +6,13 @@ const bookShop = Vue.createApp({
                 {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg", id: "2001", price: 2200},
                 {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg", id: "2002", price: 1990},
                 {title: "Bible", src: "./imgs/book-covers/bible.jpg", id: "2003", price: 3500},
-                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg", id: "2004", price: 2490}
+                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg", id: "2004", price: 2490},
             ],
             cart: [],
             addedToCartClass: null,
             accCounter: null,
             currentBook: {},
+            currentAccount: {un: "defUsername", pw:"defPw"},
             //Conditional rendering booleans
             atSignIn: false,
             atRegister: false,
@@ -45,6 +46,7 @@ const bookShop = Vue.createApp({
                         pwFound = true
                         this.atSignIn = false
                         this.atShop = true
+                        this.currentAccount = user
                     }
                 }
             })
@@ -95,15 +97,17 @@ const bookShop = Vue.createApp({
                 } else if(result === 'pw') {
                     alert.innerText = "*Password already taken"
                 } else {
-                    alert.innerText = "*Username and Password alread taken"
+                    alert.innerText = "*Username and Password already taken"
                 }
                 return
             }
             
-            this.accounts.push({un: un, pw: pw})
+            let newAcc = {un: un, pw: pw}
+            this.accounts.push(newAcc)
             if(signIn) {
                 this.atRegister = false
                 this.atShop = true
+                this.currentAccount = newAcc
             } else {
                 this.atRegister = false
                 this.atSignIn = true
@@ -186,9 +190,9 @@ const bookShop = Vue.createApp({
 
             if(!itsThere) {
                 if(bookNum === 1) {
-                    this.cart.push({title: this.currentBook.title, price: price, quantity: null}) //null means the user ordered only 1 book ; it's more useful at the rendering of the cart
+                    this.cart.push({title: this.currentBook.title, price: price, quantity: null, id: this.currentBook.id}) //null means the user ordered only 1 book ; it's more useful at the rendering of the cart
                 } else {
-                    this.cart.push({title: this.currentBook.title, price: price, quantity: bookNum})
+                    this.cart.push({title: this.currentBook.title, price: price, quantity: bookNum, id: this.currentBook.id})
                 }
             }
             //this
@@ -208,6 +212,17 @@ const bookShop = Vue.createApp({
             this.noBookSelected = false
             this.seeCart = true
         },
+        removeBookFromCart(e) {
+            let id = e.target.id
+            let newCart
+            if(this.cart.length === 1) {
+                newCart = []
+                this.cartIsEmpty = true
+            } else {
+                newCart = this.cart.filter(book => book.id === id)
+            }
+            this.cart = newCart
+        }
     },
     computed: {
         totalPrice() {

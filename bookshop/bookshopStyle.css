@@ -7,14 +7,15 @@ body {
 button:hover {
     cursor: pointer;
 }
-
 header {
     padding: 10px 0;
     position: fixed;
     top: 0px;
     width: 100%;
     background-color: #ff3300;
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     z-index: 1;
 }
 main {
@@ -22,9 +23,10 @@ main {
     width: 80%;
 }
 
+
 #signIn, #registerBlock {
     text-align: center;
-    padding-top: 100px;
+    padding-top: 2vw;
     position: relative;
 }
 .textInput {
@@ -73,28 +75,10 @@ main {
 }
 
 
-#bookIconsOuterBox {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 800px;
-}
-.bookIconBox {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-    background-color: azure;
-    padding: 5px;
-    border-radius: 5px;
-    margin: 5px;
-    width: 300px;
-}
-.bookIcon {
-    height: 150px;
-    width: auto;
-    padding: 0 100px;
+#usernameInHeader {
+    display: inline;
+    margin: 0;
+    margin-left: 20px;
 }
 #accountIcon, #cartIcon {
     cursor: pointer;
@@ -121,6 +105,32 @@ main {
     margin: 0;
     cursor: pointer;
 }
+
+
+#bookIconsOuterBox {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 800px;
+}
+.bookIconBox {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    background-color: azure;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    width: 300px;
+}
+.bookIcon {
+    height: 150px;
+    width: auto;
+    padding: 0 100px;
+}
+
 
 #showBookOuter, #cart {
     width: 800px;
@@ -153,17 +163,30 @@ main {
     padding: 5px 3px;
     font-size: 90%;
 }
-.cartRow {
+
+.cartRowOuter, .cartRowInner {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: solid grey 1px;
     margin-bottom: 0px;
 }
-.innerCartRow {
+.innerCartRowFirst {
+    width: 650px;
+    border: 0;
+    justify-content: flex-start;
+}
+.innerCartRowSecond {
     width: 100px;
 }
 #cartAll {
     border: 0;
+    flex-direction: row;
+}
+.deleteFromCartX {
+    height: 23px;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 800px) {
@@ -172,5 +195,34 @@ main {
     }
     #signIn {
         padding-top: 0;
+    }
+    .registerh2Mobile {
+        margin-top: 40px;
+    }
+    #bookIconsOuterBox {
+        width: 100%;
+    }
+    #showBookOuter, #cart {
+        width: 100%;
+    }
+    #showBookInner {
+        flex-direction: column;
+        justify-content: center;
+    }
+    #bookIconBigDiv {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .cartRowOuter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+@media screen and (max-width: 310px) {
+    #bookIconBig {
+        height: 200px;
+    }
+    .bookIconBox {
+        width: 200px;
     }
 }

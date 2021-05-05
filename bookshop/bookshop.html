@@ -15,8 +15,11 @@
     <div id="outerDiv">
 
         <header id="header" v-if="atShop">
-            <img src="./imgs/cart-icon.jpg" alt="cart" id="cartIcon" :class="addedToCartClass" @click="toCart">
-            <img src="./imgs/account-icon2.png" alt="account" id="accountIcon" @click="accMenuClicked">
+            <h3 id="usernameInHeader">{{ currentAccount.un }}</h3>
+            <div>
+                <img src="./imgs/cart-icon.jpg" alt="cart" id="cartIcon" :class="addedToCartClass" @click="toCart">
+                <img src="./imgs/account-icon2.png" alt="account" id="accountIcon" @click="accMenuClicked">
+            </div>
         </header>
         <div v-if="accOpened" id="accMenu" @mouseover="longerCounting">
             <p id="logOutP" @click="logOut">« Log Out</p>
@@ -25,7 +28,7 @@
         <main id="main">
             <div id="registerBlock" v-if="atRegister">
                 <img src="./imgs/arrow-icon.webp" alt="back" id="registerBackButton" @click="backToSignIn">
-                <h2>All you need is a username and a password</h2>
+                <h2 class="registerh2Mobile">All you need is a username and a password</h2>
                 <label for="registerUsername">Your Username:</label><br>
                 <input type="text" class="textInput" id="registerUsername"><br>
                 <label for="registerPassword">Your Password:</label><br>
@@ -63,14 +66,17 @@
                 <div id="cart" v-if="seeCart">
                     <img src="./imgs/arrow-icon.webp" alt="back" id="simpleBackButton" @click="backToBooks">
                     <div v-if="!cartIsEmpty">
-                        <div v-for="book in cart" class="cartRow">
-                            <h4 style="margin-bottom: 8px">{{ book.title }}</h4>
-                            <div class="cartRow innerCartRow">
+                        <div v-for="book in cart" class="cartRowOuter">
+                            <div class="cartRowInner innerCartRowFirst">
+                                <img src="./imgs/x-icon.webp" alt="Delete" class="deleteFromCartX" @click="removeBookFromCart" :id="book.id">
+                                <h4 style="margin: 0;">{{ book.title }}</h4>
+                            </div>
+                            <div class="cartRowInner innerCartRowSecond">
                                 <p>{{ book.quantity }}</p>
                                 <p>{{ book.price }} Ft</p>
                             </div>
                         </div>
-                        <div class="cartRow" id="cartAll">
+                        <div class="cartRowOuter" id="cartAll">
                             <h3>All:</h3>
                             <h4>{{ totalPrice }} Ft</h4>
                         </div>
