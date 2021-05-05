@@ -219,7 +219,7 @@ const bookShop = Vue.createApp({
                 newCart = []
                 this.cartIsEmpty = true
             } else {
-                newCart = this.cart.filter(book => book.id === id)
+                newCart = this.cart.filter(book => book.id !== id)
             }
             this.cart = newCart
         }
