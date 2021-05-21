@@ -1,18 +1,18 @@
 const bookShop = Vue.createApp({
     data() {
         return {
-            accounts: [{un: 'bigreader01', pw: 'povHey9'}, {un: "jonas74", pw: "aks5We"}, {un: "phil_13", pw: "7ebnu8"}],
+            accounts: [{un: 'bigreader01', pw: 'povHey9', cart: []}, {un: "jonas74", pw: "aks5We", cart: []}, {un: "phil_13", pw: "7ebnu8", cart: []}],
             books: [
-                {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg", id: "2001", price: 2200},
-                {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg", id: "2002", price: 1990},
-                {title: "Bible", src: "./imgs/book-covers/bible.jpg", id: "2003", price: 3500},
-                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg", id: "2004", price: 2490},
+                {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg", id: "2001", price: 2200, inStock: 100},
+                {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg", id: "2002", price: 1990, inStock: 20},
+                {title: "Bible", src: "./imgs/book-covers/bible.jpg", id: "2003", price: 3500, inStock: 30},
+                {title: "Pinocchio", src: "./imgs/book-covers/pinocchio.jpg", id: "2004", price: 2490, inStock: 0},
             ],
             cart: [],
             addedToCartClass: null,
             accCounter: null,
             currentBook: {},
-            currentAccount: {un: "defUsername", pw:"defPw"},
+            currentAccount: {un: "defUsername", pw:"defPw", cart: []},
             //Conditional rendering booleans
             atSignIn: false,
             atRegister: false,
@@ -23,7 +23,6 @@ const bookShop = Vue.createApp({
             seeCart: false,
 
             accOpened: false,
-            cartIsEmpty: true,
         }
     },
     methods: {
@@ -102,11 +101,14 @@ const bookShop = Vue.createApp({
                 return
             }
             
-            let newAcc = {un: un, pw: pw}
+            let newAcc = {un: un, pw: pw, cart: []}
             this.accounts.push(newAcc)
             if(signIn) {
-                this.atRegister = false
+                this.atRegister = false //many many rendering conditional
                 this.atShop = true
+                this.noBookSelected = true,
+                this.bookSelected = false,
+                this.seeCart = false,
                 this.currentAccount = newAcc
             } else {
                 this.atRegister = false
@@ -171,11 +173,10 @@ const bookShop = Vue.createApp({
                 return
             }
 
-            this.cartIsEmpty = false
             let price = bookNum * this.currentBook.price
             //check if the book is already added to the cart
             let itsThere = false
-            this.cart.forEach(book => {
+            this.currentAccount.cart.forEach(book => {
                 if(book.title === this.currentBook.title) {
                     itsThere = true
                     if(!book.quantity) {
@@ -189,18 +190,21 @@ const bookShop = Vue.createApp({
             })
 
             if(!itsThere) {
-                if(bookNum === 1) {
-                    this.cart.push({title: this.currentBook.title, price: price, quantity: null, id: this.currentBook.id}) //null means the user ordered only 1 book ; it's more useful at the rendering of the cart
-                } else {
-                    this.cart.push({title: this.currentBook.title, price: price, quantity: bookNum, id: this.currentBook.id})
-                }
+                this.currentAccount.cart.push(
+                    {title: this.currentBook.title, 
+                     price: price, 
+                     quantity: bookNum === 1 ? null : bookNum, 
+                     id: this.currentBook.id}
+                ) //null means the user ordered only 1 book ; it's more useful at the rendering of the cart
             }
-            //this
+
             this.addedToCartClass = 'addedToCart'
             setTimeout(() => {
                 this.addedToCartClass = null
             }, 750)
             alert.innerText = null
+
+            this.saveAccountCart()
         },
         backToBooks() {
             this.bookSelected = false
@@ -215,23 +219,39 @@ const bookShop = Vue.createApp({
         removeBookFromCart(e) {
             let id = e.target.id
             let newCart
-            if(this.cart.length === 1) {
+            if(this.currentAccount.cart.length === 1) {
                 newCart = []
-                this.cartIsEmpty = true
             } else {
-                newCart = this.cart.filter(book => book.id !== id)
+                newCart = this.currentAccount.cart.filter(book => book.id !== id)
             }
-            this.cart = newCart
+            this.currentAccount.cart = newCart
+
+            this.saveAccountCart()
+        },
+        saveAccountCart() { //this method syncronizes the real accounts with currentAcc
+            this.accounts.forEach(account => {
+                if(account.un === this.currentAccount.un) {
+                    account.cart = this.currentAccount.cart
+                }
+            })
         }
     },
     computed: {
         totalPrice() {
             let prices = []
-            this.cart.forEach(book => {
+            this.currentAccount.cart.forEach(book => {
                 let price = book.price
                 prices.push(price)
             })
             return prices.reduce((acc, current) => acc + current)
+        },
+        cartIsEmpty() {
+            //currentAccount.cart.length ? false : true
+            if(this.currentAccount.cart.length) {
+                return false
+            } else {
+                return true
+            }
         }
     },
 })

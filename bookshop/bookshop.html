@@ -66,7 +66,7 @@
                 <div id="cart" v-if="seeCart">
                     <img src="./imgs/arrow-icon.webp" alt="back" id="simpleBackButton" @click="backToBooks">
                     <div v-if="!cartIsEmpty">
-                        <div v-for="book in cart" class="cartRowOuter">
+                        <div v-for="book in currentAccount.cart" class="cartRowOuter">
                             <div class="cartRowInner innerCartRowFirst">
                                 <img src="./imgs/x-icon.webp" alt="Delete" class="deleteFromCartX" @click="removeBookFromCart" :id="book.id">
                                 <h4 style="margin: 0;">{{ book.title }}</h4>
