@@ -1,7 +1,7 @@
 const bookShop = Vue.createApp({
     data() {
         return {
-            accounts: [{un: 'bigreader01', pw: 'povHey9', cart: []}, {un: "jonas74", pw: "aks5We", cart: []}, {un: "phil_13", pw: "7ebnu8", cart: []}],
+            accounts: [{un: 'bigreader01', pw: 'reader', cart: []}, {un: "jonas74", pw: "jonas", cart: []}, {un: "admin", pw: "admin"}],
             books: [
                 {title: "Harry Potter and the Sorcerer's Stone", src: "./imgs/book-covers/harry-potter.jpg", id: "2001", price: 2200, inStock: 100},
                 {title: "The Lion, the Witch, and the Wardrobe", src: "./imgs/book-covers/narnia.jpg", id: "2002", price: 1990, inStock: 20},
@@ -13,10 +13,11 @@ const bookShop = Vue.createApp({
             accCounter: null,
             currentBook: {},
             currentAccount: {un: "defUsername", pw:"defPw", cart: []},
+            admin: false,
             //Conditional rendering booleans
-            atSignIn: false,
+            atSignIn: true,
             atRegister: false,
-            atShop: true,
+            atShop: false,
 
             noBookSelected: true,
             bookSelected: false,
@@ -26,6 +27,9 @@ const bookShop = Vue.createApp({
         }
     },
     methods: {
+
+        //LOGIN & REGISTER
+
         logInHappened() {
             let un = getEl("usernameInput").value
             let pw = getEl("passwordInput").value
@@ -46,6 +50,9 @@ const bookShop = Vue.createApp({
                         this.atSignIn = false
                         this.atShop = true
                         this.currentAccount = user
+                        if(un === "admin") {
+                            this.admin = true
+                        }
                     }
                 }
             })
@@ -65,7 +72,6 @@ const bookShop = Vue.createApp({
             this.atSignIn = false
         },
         registerHappened() {
-            //get datas
             let un = getEl("registerUsername").value
             let pw = getEl("registerPassword").value
             let pwAgain = getEl("registerPasswordRepeat").value
@@ -129,6 +135,8 @@ const bookShop = Vue.createApp({
             this.atSignIn = true
         },
 
+        //SHOP MAIN
+
         accMenuClicked() {
             if(this.accOpened) {
                 this.accOpened = false
@@ -151,10 +159,10 @@ const bookShop = Vue.createApp({
             this.atShop = false
             this.atSignIn = true
             this.accOpened = false
+            this.admin = false
         },
-
         showBookClicked(e) {
-            let bookId = e.target.id
+            let bookId = e.target.parentElement.id
             this.noBookSelected = false
             this.bookSelected = true
             this.books.forEach(book => {
@@ -163,13 +171,24 @@ const bookShop = Vue.createApp({
                 }
             })
         },
+
+        //CART
+
         addToCart() {
-            let bookNumStr = getEl("bookNumInput").value
-            let bookNum = parseInt(bookNumStr)
+            if(this.admin) {
+                console.log("Please don't use this button while on admin");
+                return
+            }
+            let bookNum = parseInt(getEl("bookNumInput").value)
             let alert = getEl('addToCartAlert')
             //check validation
             if(!bookNum || bookNum < 1 || bookNum > 15) {
                 alert.innerText = "*Invalid Book Quantity"
+                return
+            }
+            //check if there's enough book
+            if(this.currentBook.inStock < bookNum) {
+                alert.innerText = "*There's not enough book in Stock"
                 return
             }
 
@@ -184,7 +203,6 @@ const bookShop = Vue.createApp({
                     } else {
                         book.quantity += bookNum
                     }
-                    
                     book.price += price
                 }
             })
@@ -193,10 +211,16 @@ const bookShop = Vue.createApp({
                 this.currentAccount.cart.push(
                     {title: this.currentBook.title, 
                      price: price, 
-                     quantity: bookNum === 1 ? null : bookNum, 
+                     quantity: bookNum === 1 ? null : bookNum, //null means the user ordered only 1 book ; it's more useful at the rendering of the cart
                      id: this.currentBook.id}
-                ) //null means the user ordered only 1 book ; it's more useful at the rendering of the cart
+                ) 
             }
+            //take the books from Stock
+            this.books.forEach(book => {
+                if(this.currentBook.id === book.id) {
+                    book.inStock -= bookNum
+                }
+            })
 
             this.addedToCartClass = 'addedToCart'
             setTimeout(() => {
@@ -218,6 +242,20 @@ const bookShop = Vue.createApp({
         },
         removeBookFromCart(e) {
             let id = e.target.id
+
+            //here i put back the removed book-quantity to Stock
+            let quantity
+            this.currentAccount.cart.forEach(book => {
+                if(book.id === id) {
+                    quantity = !book.quantity ? 1 : book.quantity
+                }
+            })
+            this.books.forEach(book => {
+                if(book.id === id) {
+                    book.inStock += quantity
+                }
+            })
+
             let newCart
             if(this.currentAccount.cart.length === 1) {
                 newCart = []
@@ -225,7 +263,6 @@ const bookShop = Vue.createApp({
                 newCart = this.currentAccount.cart.filter(book => book.id !== id)
             }
             this.currentAccount.cart = newCart
-
             this.saveAccountCart()
         },
         saveAccountCart() { //this method syncronizes the real accounts with currentAcc
@@ -234,24 +271,72 @@ const bookShop = Vue.createApp({
                     account.cart = this.currentAccount.cart
                 }
             })
+        },
+
+        //CREATE, UPDATE, DELETE - ADMIN
+
+        createNewBook() {
+            const title = getEl("newBookTitle").value
+            const price = parseInt(getEl("newBookPrice").value)
+            const inStock = parseInt(getEl("newBookInStock").value)
+            if(!title || !price || !inStock) {
+                alert("Please fill out everything correctly!")
+                return
+            }
+            //here i look at the id of the last book, then i add one to it
+            let lastid = parseInt(this.books[this.books.length -1].id)
+            const id = (lastid +1).toString()
+
+            const newBook = {
+                title: title, 
+                src: "",
+                id: id,
+                price: price,
+                inStock: inStock
+            }
+            this.books.push(newBook)
+
+            getEl("newBookTitle").value = ''
+            getEl("newBookPrice").value = ''
+            getEl("newBookInStock").value = 10
+        },
+        updateBook() {
+            const title = getEl("updateTitle").value
+            const price = parseInt(getEl("updatePrice").value)
+            const inStock = parseInt(getEl("updateInStock").value)
+
+            if(!title || !price) {
+                alert("Please fill out everything correctly!")
+                return
+            }
+            this.currentBook.title = title
+            this.currentBook.price = price
+            this.currentBook.inStock = inStock
+        },
+        deleteBook(e) {
+            let conf = confirm("Please Confirm to Delete")
+            if(!conf) {
+                return
+            }
+            const bookId = e.target.parentElement.id
+            const bookIndex = this.books.findIndex(book => book.id === bookId)
+            this.books.splice(bookIndex, 1)
         }
     },
+
     computed: {
         totalPrice() {
-            let prices = []
+            let total = 0
             this.currentAccount.cart.forEach(book => {
-                let price = book.price
-                prices.push(price)
+                total += book.price
             })
-            return prices.reduce((acc, current) => acc + current)
+            return total
         },
         cartIsEmpty() {
-            //currentAccount.cart.length ? false : true
-            if(this.currentAccount.cart.length) {
-                return false
-            } else {
-                return true
-            }
+            return this.currentAccount.cart.length ? false : true
+        },
+        inStock() {
+            return this.currentBook.inStock
         }
     },
 })

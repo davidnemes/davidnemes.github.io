@@ -17,7 +17,7 @@
         <header id="header" v-if="atShop">
             <h3 id="usernameInHeader">{{ currentAccount.un }}</h3>
             <div>
-                <img src="./imgs/cart-icon.jpg" alt="cart" id="cartIcon" :class="addedToCartClass" @click="toCart">
+                <img v-if="!admin" src="./imgs/cart-icon.jpg" alt="cart" id="cartIcon" :class="addedToCartClass" @click="toCart">
                 <img src="./imgs/account-icon2.png" alt="account" id="accountIcon" @click="accMenuClicked">
             </div>
         </header>
@@ -29,24 +29,37 @@
             <div id="registerBlock" v-if="atRegister">
                 <img src="./imgs/arrow-icon.webp" alt="back" id="registerBackButton" @click="backToSignIn">
                 <h2 class="registerh2Mobile">All you need is a username and a password</h2>
-                <label for="registerUsername">Your Username:</label><br>
-                <input type="text" class="textInput" id="registerUsername"><br>
-                <label for="registerPassword">Your Password:</label><br>
-                <input type="password" id="registerPassword" class="textInput"><button @click="showPw('registerPassword')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
-                <label for="pwRepeat">Password Again:</label><br>
+                <label for="registerUsername">Your Username:</label>
+                <input type="text" class="textInput" id="registerUsername">
+                <label for="registerPassword">Your Password:</label>
+                <input type="password" id="registerPassword" class="textInput"><button @click="showPw('registerPassword')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button>
+                <label for="pwRepeat">Password Again:</label>
                 <input class="textInput" type="password" id="registerPasswordRepeat"><button @click="showPw('registerPasswordRepeat')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
-                <input type="checkbox" id="registerCheckbox" checked="true"><label for="registerCheckbox">Sign Me in</label><br>
+                <input type="checkbox" id="registerCheckbox" checked="true"><label for="registerCheckbox">Sign Me in</label>
                 <button @click="registerHappened" class="submitButton">Register</button>
                 <p class="alert" id="registerAlert"></p>
             </div>
             <sign-in :atsignin="atSignIn" @show-pw="showPw" @log-in="logInHappened" @register="registerClicked"></sign-in>
             <div v-if="atShop" id="theShop">
                 <div id="bookIconsOuterBox" v-if="noBookSelected">
-                    <div v-for="(book, index) in books" class="bookIconBox" :key="index">
-                            <img :src="book.src" alt="img" class="bookIcon">
+                    <div v-for="(book, index) in books" class="bookIconBox" :key="index" :id="index">
+                        <img :src="book.src" alt="img" class="bookIcon">
                         <p>{{ book.title }}</p>
-                        <p :id="book.id" class="showBookLink" style="margin: 0;" @click="showBookClicked">Look »</p>
-                    </div>
+                        <div style="text-align: center" :id="book.id">
+                            <p class="showBookLink" style="margin: 0;" @click="showBookClicked">Look »</p>
+                            <button v-if="admin" @click="deleteBook" class="submitButton" id="delBook">DELETE BOOK</button>
+                        </div>
+                    </div> 
+                </div>
+                <div v-if="admin && noBookSelected" id="createBook">
+                    <h1>Create a new book</h1>
+                    <label for="newBookName">Book's Title:</label>
+                    <input type="text" class="textInput" id="newBookTitle">
+                    <label for="newBookPrice">Book's Price:</label>
+                    <input type="text" class="textInput" id="newBookPrice">
+                    <label for="newBookInStock">In Stock:</label>
+                    <input type="number" value="10" class="textInput" id="newBookInStock"><br>
+                    <button class="submitButton" style="margin-bottom: 30px" @click="createNewBook">Create</button>
                 </div>
                 <div id="showBookOuter" v-if="bookSelected">
                     <img src="./imgs/arrow-icon.webp" alt="back" id="simpleBackButton" @click="backToBooks">
@@ -57,10 +70,22 @@
                         <div id="showBookDetails">
                             <h2>{{ currentBook.title }}</h2>
                             <h3 style="color: black;">{{ currentBook.price }} Ft</h3>
+                            <p v-if="inStock">In Stock</p>
+                            <p v-else style="color: red">Out of Stock</p>
                             <input type="number" id="bookNumInput" value="1" min="1" max="15" >
-                            <button class="submitButton" @click="addToCart" :class="addedToCartClass" :disabled="addedToCartClass">Put to Cart</button>
+                            <button class="submitButton" @click="addToCart" :class="addedToCartClass" :disabled="!inStock">Put to Cart</button>
                             <p class="alert" id="addToCartAlert"></p>
                         </div>
+                    </div>
+                    <div v-if="admin" id="updateBook">
+                        <h1>Update this book</h1>
+                        <label for="updateTitle">Book's Title:</label>
+                        <input type="text" :value="currentBook.title" class="textInput" id="updateTitle">
+                        <label for="updatePrice">Book's Price:</label>
+                        <input type="text" :value="currentBook.price" class="textInput" id="updatePrice">
+                        <label for="updateInStock">In Stock:</label>
+                        <input type="number" :value="currentBook.inStock" class="textInput" id="updateInStock"><br>
+                        <button class="submitButton" style="margin-bottom: 30px" @click="updateBook">Update</button>
                     </div>
                 </div>
                 <div id="cart" v-if="seeCart">

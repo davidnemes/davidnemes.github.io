@@ -22,6 +22,9 @@ main {
     margin: 100px auto 0 auto;
     width: 80%;
 }
+label {
+    display: block;
+}
 
 
 #signIn, #registerBlock {
@@ -88,7 +91,7 @@ main {
     margin-right: 30px;
 }
 #accMenu {
-    position: absolute;
+    position: fixed;
     top: 65px;
     right: 10px;
     z-index: 2;
@@ -187,6 +190,15 @@ main {
     height: 23px;
     margin-right: 10px;
     cursor: pointer;
+}
+
+#createBook, #updateBook {
+    text-align: center;
+}
+#delBook {
+    background-color: #ff3300;
+    color:white;
+    font-size: 100%;
 }
 
 @media screen and (max-width: 800px) {

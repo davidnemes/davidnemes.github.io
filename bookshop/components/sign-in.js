@@ -10,11 +10,11 @@ bookShop.component('sign-in', {
     /*html*/
     `<div id="signIn" v-if="atsignin">
         <h1>Welcome to our Bookshop!</h1>
-        <h3>Sign up or Log in</h3>
+        <h3>Log in</h3>
         <div>
-            <label for="usernameInput">Username:</label><br>
-            <input type="text" id="usernameInput" class="textInput"><br>
-            <label for="passwordInput">Password:</label><br>
+            <label for="usernameInput">Username:</label>
+            <input type="text" id="usernameInput" class="textInput">
+            <label for="passwordInput">Password:</label>
             <input type="password" class="textInput" id="passwordInput" maxlength="15"><button @click="showPw('passwordInput')" class="showTextButton"><img src="./imgs/lock-icon.jpg" alt="lock" style="width: 15px"></button><br>
             <button class="submitButton" @click="logInHappened">Log in</button>
         </div>
